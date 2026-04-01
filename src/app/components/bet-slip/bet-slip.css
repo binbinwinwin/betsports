@@ -1,0 +1,432 @@
+.bet-slip {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.slip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  background: #1c2128;
+  border-bottom: 1px solid #30363d;
+}
+
+.slip-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #f0b429;
+}
+
+.clear-btn {
+  background: none;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  color: #8b949e;
+  font-size: 12px;
+  padding: 3px 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.clear-btn:hover {
+  border-color: #f85149;
+  color: #f85149;
+}
+
+/* 模式切換 */
+.mode-tabs {
+  display: flex;
+  border-bottom: 1px solid #30363d;
+}
+
+.mode-tab {
+  flex: 1;
+  padding: 10px;
+  background: none;
+  border: none;
+  color: #6e7681;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.mode-tab:hover {
+  color: #e6edf3;
+}
+
+.mode-tab.active {
+  color: #f0b429;
+  border-bottom-color: #f0b429;
+}
+
+.parlay-badge {
+  background: #f0b42920;
+  color: #f0b429;
+  border: 1px solid #f0b42960;
+  border-radius: 4px;
+  font-size: 10px;
+  padding: 1px 5px;
+  font-weight: 700;
+}
+
+/* 過關標頭 */
+.parlay-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  background: #f0b42910;
+  border-bottom: 1px solid #f0b42930;
+}
+
+.parlay-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #f0b429;
+}
+
+.parlay-combined-odds {
+  font-size: 12px;
+  color: #8b949e;
+}
+
+.parlay-combined-odds strong {
+  color: #f0b429;
+  font-size: 16px;
+}
+
+/* 過關各腳 */
+.parlay-leg {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px solid #21262d;
+  gap: 8px;
+}
+
+.leg-left {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+}
+
+.leg-match {
+  font-size: 12px;
+  color: #8b949e;
+}
+
+.leg-selection {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e6edf3;
+}
+
+.leg-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.leg-odds {
+  font-size: 15px;
+  font-weight: 800;
+  color: #f0b429;
+}
+
+/* 過關提示 */
+.parlay-warning {
+  font-size: 12px;
+  color: #f0b429;
+  text-align: center;
+  padding: 10px 16px;
+  background: #f0b42910;
+}
+
+/* 過關金額輸入 */
+.parlay-stake-section {
+  padding: 12px 16px;
+  border-bottom: 1px solid #21262d;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* 過關確認按鈕 */
+.place-bet-btn.parlay-btn {
+  background: linear-gradient(135deg, #f0b429, #e8930a);
+}
+
+.place-bet-btn.parlay-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #f5c84a, #f0b429);
+}
+
+/* 成功提示 */
+.success-msg {
+  background: #16813340;
+  border: 1px solid #39d353;
+  color: #39d353;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  margin: 12px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+/* 空狀態 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 16px;
+  color: #484f58;
+  gap: 6px;
+}
+
+.empty-icon {
+  font-size: 36px;
+  margin-bottom: 8px;
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: 14px;
+  color: #6e7681;
+}
+
+.empty-hint {
+  font-size: 12px !important;
+  color: #484f58 !important;
+}
+
+/* 投注項目 */
+.bet-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid #21262d;
+  transition: opacity 0.2s;
+}
+
+.bet-item-empty {
+  opacity: 0.5;
+}
+
+.bet-item:last-of-type {
+  border-bottom: none;
+}
+
+.bet-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 6px;
+}
+
+.bet-match {
+  font-size: 12px;
+  color: #8b949e;
+  flex: 1;
+  line-height: 1.4;
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: #6e7681;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0 0 0 8px;
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+
+.remove-btn:hover {
+  color: #f85149;
+}
+
+.bet-selection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.selection-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e6edf3;
+}
+
+.selection-odds {
+  font-size: 16px;
+  font-weight: 800;
+  color: #f0b429;
+}
+
+/* 金額輸入 */
+.stake-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.stake-input-wrap {
+  display: flex;
+  align-items: center;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.stake-input-wrap:focus-within {
+  border-color: #f0b429;
+}
+
+.currency {
+  padding: 8px 10px;
+  font-size: 12px;
+  color: #8b949e;
+  background: #1c2128;
+  border-right: 1px solid #30363d;
+  flex-shrink: 0;
+}
+
+.stake-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #e6edf3;
+  font-size: 14px;
+  padding: 8px 10px;
+  outline: none;
+  width: 100%;
+}
+
+.stake-input::placeholder {
+  color: #484f58;
+}
+
+.stake-input::-webkit-inner-spin-button,
+.stake-input::-webkit-outer-spin-button {
+  opacity: 0.5;
+}
+
+.potential-win {
+  font-size: 12px;
+  color: #39d353;
+  text-align: right;
+}
+
+.empty-hint-inline {
+  font-size: 11px;
+  color: #6e7681;
+  text-align: right;
+}
+
+/* 場次統計列 */
+.bet-count-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  padding: 6px 10px;
+  background: #0d1117;
+  border-radius: 6px;
+  gap: 8px;
+}
+
+.count-valid {
+  color: #39d353;
+  font-weight: 600;
+}
+
+.count-empty {
+  color: #6e7681;
+}
+
+/* 底部合計 */
+.slip-footer {
+  padding: 14px 16px;
+  background: #1c2128;
+  border-top: 1px solid #30363d;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #8b949e;
+}
+
+.summary-value {
+  font-weight: 600;
+  color: #e6edf3;
+}
+
+.summary-value.highlight {
+  color: #f0b429;
+}
+
+.balance-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #6e7681;
+  padding-top: 4px;
+  border-top: 1px solid #30363d;
+}
+
+.error-msg {
+  background: #da363620;
+  border: 1px solid #f85149;
+  color: #f85149;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.place-bet-btn {
+  width: 100%;
+  padding: 12px;
+  background: #f0b429;
+  border: none;
+  border-radius: 8px;
+  color: #0d1117;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
+  margin-top: 4px;
+}
+
+.place-bet-btn:hover:not(:disabled) {
+  background: #f5c84a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px #f0b42940;
+}
+
+.place-bet-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}

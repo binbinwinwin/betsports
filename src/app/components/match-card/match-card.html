@@ -1,0 +1,72 @@
+<div class="match-card">
+  <!-- 頂部：聯賽名稱 + 狀態 -->
+  <div class="card-header">
+    <div class="league-info">
+      <span class="sport-icon">{{ sportIcon(match.sport) }}</span>
+      <span class="league-name">{{ match.league }}</span>
+    </div>
+    @if (match.status === 'live') {
+      <div class="live-badge">
+        <span class="live-dot"></span>
+        <span>LIVE</span>
+        @if (match.minute) {
+          <span class="live-minute">{{ match.minute }}'</span>
+        }
+        @if (match.period) {
+          <span class="live-minute">{{ match.period }}</span>
+        }
+      </div>
+    } @else {
+      <div class="upcoming-time">{{ match.startTime }}</div>
+    }
+  </div>
+
+  <!-- 中間：主客隊 + 比分 -->
+  <div class="teams-section">
+    <div class="team home-team">
+      <span class="team-name">{{ match.homeTeam }}</span>
+      @if (match.status === 'live') {
+        <span class="score home-score">{{ match.score.home }}</span>
+      }
+    </div>
+
+    <div class="vs-divider">
+      @if (match.status === 'live') {
+        <span class="live-score-sep">:</span>
+      } @else {
+        <span class="vs-text">VS</span>
+      }
+    </div>
+
+    <div class="team away-team">
+      @if (match.status === 'live') {
+        <span class="score away-score">{{ match.score.away }}</span>
+      }
+      <span class="team-name">{{ match.awayTeam }}</span>
+    </div>
+  </div>
+
+  <!-- 底部：賠率按鈕 -->
+  <div class="odds-section">
+    <app-odds-button
+      label="主隊勝"
+      [odds]="match.odds.home"
+      [isSelected]="isSelected('home')"
+      (clicked)="onOddsClick('home')"
+    />
+    @if (match.odds.draw !== null) {
+      <app-odds-button
+        label="平局"
+        [odds]="match.odds.draw"
+        [isSelected]="isSelected('draw')"
+        (clicked)="onOddsClick('draw')"
+      />
+    }
+    <app-odds-button
+      label="客隊勝"
+      [odds]="match.odds.away"
+      [isSelected]="isSelected('away')"
+      (clicked)="onOddsClick('away')"
+    />
+  </div>
+</div>

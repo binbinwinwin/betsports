@@ -1,0 +1,54 @@
+<header class="site-header">
+  <div class="header-inner">
+    <!-- Logo -->
+    <a class="logo" routerLink="/">
+      ⚽ <span class="logo-text">BetSports</span>
+      <span class="logo-sub">球類投注</span>
+    </a>
+
+    <!-- 導覽 -->
+    <nav class="nav-links">
+      <a
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="nav-link"
+      >賽事</a>
+      <a
+        routerLink="/history"
+        routerLinkActive="active"
+        class="nav-link"
+      >投注紀錄</a>
+    </nav>
+
+    <!-- 右側：餘額 + 投注單計數 -->
+    <div class="header-right">
+      @if (betCount > 0) {
+        <div class="bet-count-badge">
+          <span class="badge-dot">{{ betCount }}</span>
+          <span class="badge-label">待投注</span>
+        </div>
+      }
+      <div class="balance-display">
+        <span class="balance-label">餘額</span>
+        <span class="balance-amount">NT$ {{ formatBalance(balance) }}</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- 結算 Toast 通知 -->
+<div class="toast-container">
+  @for (toast of toasts(); track toast.id) {
+    <div class="toast" [class]="'toast-' + toast.result">
+      <span class="toast-icon">{{ toast.result === 'won' ? '🏆' : '❌' }}</span>
+      <div class="toast-body">
+        <div class="toast-title">{{ toast.result === 'won' ? '投注獲勝！' : '投注落敗' }}</div>
+        <div class="toast-desc">{{ toast.matchName }}</div>
+        <div class="toast-amount">
+          {{ toast.result === 'won' ? '+ NT$ ' + toast.amount.toLocaleString('zh-TW') : '- NT$ ' + toast.amount.toLocaleString('zh-TW') }}
+        </div>
+      </div>
+    </div>
+  }
+</div>

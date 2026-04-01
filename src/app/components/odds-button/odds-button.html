@@ -1,0 +1,11 @@
+<button
+  class="odds-btn"
+  [class.selected]="isSelected"
+  [class.odds-up]="flashClass() === 'odds-up'"
+  [class.odds-down]="flashClass() === 'odds-down'"
+  [disabled]="odds === null"
+  (click)="onClick()"
+>
+  <span class="odds-label">{{ label }}</span>
+  <span class="odds-value">{{ formatOdds(odds) }}</span>
+</button>

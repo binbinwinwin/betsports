@@ -1,0 +1,40 @@
+<div class="home-page">
+  <!-- 頁面標題 -->
+  <div class="page-header">
+    <h1 class="page-title">賽事投注</h1>
+    @if (liveCount() > 0) {
+      <div class="live-indicator">
+        <span class="live-dot"></span>
+        <span>{{ liveCount() }} 場進行中</span>
+      </div>
+    }
+  </div>
+
+  <!-- 分類 Tabs -->
+  <div class="tabs-bar">
+    @for (tab of tabs; track tab.key) {
+      <button
+        class="tab-btn"
+        [class.active]="activeTab() === tab.key"
+        (click)="setTab(tab.key)"
+      >
+        <span class="tab-icon">{{ tab.icon }}</span>
+        <span class="tab-label">{{ tab.label }}</span>
+      </button>
+    }
+  </div>
+
+  <!-- 賽事列表 -->
+  @if (filteredMatches().length > 0) {
+    <div class="matches-grid">
+      @for (match of filteredMatches(); track match.id) {
+        <app-match-card [match]="match" />
+      }
+    </div>
+  } @else {
+    <div class="no-matches">
+      <div class="no-icon">🔍</div>
+      <p>此分類目前無賽事</p>
+    </div>
+  }
+</div>
