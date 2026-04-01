@@ -5,7 +5,13 @@
       "Bash(gh auth:*)",
       "Bash(git init:*)",
       "Bash(git add:*)",
-      "Bash(git commit -m 'feat: BetSports 線上球類投注平台初始版本:*)"
+      "Bash(git commit -m 'feat: BetSports 線上球類投注平台初始版本:*)",
+      "Bash(git remote:*)",
+      "Bash(git push:*)",
+      "Bash(node:*)",
+      "Bash(git fetch:*)",
+      "Bash(git commit:*)",
+      "Bash(git checkout:*)"
     ]
   }
 }
