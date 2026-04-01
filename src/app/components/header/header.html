@@ -21,7 +21,7 @@
       >投注紀錄</a>
     </nav>
 
-    <!-- 右側：餘額 + 投注單計數 -->
+    <!-- 右側：餘額 + 投注單計數 + 登出 -->
     <div class="header-right">
       @if (betCount > 0) {
         <div class="bet-count-badge">
@@ -33,6 +33,12 @@
         <span class="balance-label">餘額</span>
         <span class="balance-amount">NT$ {{ formatBalance(balance) }}</span>
       </div>
+      @if (currentUser()) {
+        <div class="user-area">
+          <span class="user-name">{{ currentUser()!.display_name }}</span>
+          <button class="logout-btn" (click)="logout()">登出</button>
+        </div>
+      }
     </div>
   </div>
 </header>

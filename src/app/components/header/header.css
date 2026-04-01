@@ -206,6 +206,36 @@
   to   { opacity: 0; transform: translateX(60px); }
 }
 
+/* 用戶區 */
+.user-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 16px;
+  border-left: 1px solid #30363d;
+}
+
+.user-name {
+  font-size: 13px;
+  color: #8b949e;
+}
+
+.logout-btn {
+  background: transparent;
+  border: 1px solid #484f58;
+  color: #8b949e;
+  border-radius: 6px;
+  padding: 4px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logout-btn:hover {
+  border-color: #f85149;
+  color: #f85149;
+}
+
 /* RWD */
 @media (max-width: 600px) {
   .logo-sub {

@@ -2,6 +2,7 @@ import { Component, inject, signal, OnInit, OnDestroy } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BetService } from '../../services/bet.service';
+import { AuthService } from '../../services/auth.service';
 import { PlacedBet } from '../../models/match.model';
 
 interface Toast {
@@ -20,7 +21,15 @@ interface Toast {
 })
 export class Header implements OnInit, OnDestroy {
   private betService = inject(BetService);
+  private authService = inject(AuthService);
   private sub!: Subscription;
+
+  currentUser = this.authService.currentUser;
+
+  logout(): void {
+    this.authService.logout();
+    window.location.href = '/login';
+  }
   private toastIdCounter = 0;
 
   toasts = signal<Toast[]>([]);
