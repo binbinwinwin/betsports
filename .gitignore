@@ -46,3 +46,7 @@ Thumbs.db
 # Claude Code
 .claude/settings.local.json
 backend/.claude/
+
+# Python
+__pycache__/
+*.pyc
