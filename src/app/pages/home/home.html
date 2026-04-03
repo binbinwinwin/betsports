@@ -24,17 +24,53 @@
     }
   </div>
 
-  <!-- 賽事列表 -->
-  @if (filteredMatches().length > 0) {
-    <div class="matches-grid">
-      @for (match of filteredMatches(); track match.id) {
-        <app-match-card [match]="match" />
+  <!-- 賽事 + 投注單 並排 -->
+  <div class="home-body">
+
+    <!-- 賽事列表 -->
+    <div class="matches-wrap">
+      @if (filteredMatches().length > 0) {
+        <div class="matches-grid">
+          @for (match of filteredMatches(); track match.id) {
+            <app-match-card [match]="match" />
+          }
+        </div>
+      } @else {
+        <div class="no-matches">
+          <div class="no-icon">🔍</div>
+          <p>此分類目前無賽事</p>
+        </div>
       }
     </div>
-  } @else {
-    <div class="no-matches">
-      <div class="no-icon">🔍</div>
-      <p>此分類目前無賽事</p>
-    </div>
-  }
+
+    <!-- 投注單（單一實例，CSS 控制桌機/手機版面） -->
+    @if (auth.currentUser()) {
+      <div class="bet-slip-wrap" [class.mobile-open]="mobileSlipOpen()">
+        <!-- 手機版專用標題列 -->
+        <div class="mobile-slip-header">
+          <span class="mobile-slip-title">
+            🎫 投注單
+            @if (betCount > 0) {
+              <span class="mobile-slip-count">{{ betCount }}</span>
+            }
+          </span>
+          <button class="mobile-slip-close" (click)="closeSlip()">✕</button>
+        </div>
+        <div class="slip-scroll-body">
+          <app-bet-slip [showHeader]="!isMobile()" />
+        </div>
+      </div>
+
+      <!-- 手機版浮動開啟按鈕 -->
+      @if (!mobileSlipOpen()) {
+        <button class="mobile-slip-fab" (click)="openSlip()">
+          🎫
+          @if (betCount > 0) {
+            <span class="fab-count">{{ betCount }}</span>
+          }
+        </button>
+      }
+    }
+
+  </div>
 </div>

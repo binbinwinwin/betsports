@@ -9,7 +9,7 @@ export interface User {
   display_name: string;
 }
 
-const API = 'http://localhost:8000';
+export const API = 'http://localhost:8000';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -17,14 +17,16 @@ export class AuthService {
 
   currentUser = signal<User | null>(this.loadUser());
 
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
   login(username: string, password: string): Observable<User> {
     return this.http
       .post<{ access_token: string }>(`${API}/auth/login`, { username, password })
       .pipe(
         tap(({ access_token }) => localStorage.setItem('token', access_token)),
-        switchMap(() => this.http.get<User>(`${API}/auth/me`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-        })),
+        switchMap(() => this.http.get<User>(`${API}/auth/me`)),
         tap(user => {
           localStorage.setItem('user', JSON.stringify(user));
           this.currentUser.set(user);
@@ -36,13 +38,19 @@ export class AuthService {
       );
   }
 
+  register(username: string, password: string, display_name: string): Observable<User> {
+    return this.http
+      .post<User>(`${API}/auth/register`, { username, password, display_name })
+      .pipe(
+        catchError(err => {
+          const msg = err.error?.detail ?? '註冊失敗，請稍後再試';
+          return throwError(() => new Error(msg));
+        })
+      );
+  }
+
   logout(): void {
-    const token = localStorage.getItem('token');
-    if (token) {
-      this.http.post(`${API}/auth/logout`, {}, {
-        headers: { Authorization: `Bearer ${token}` }
-      }).subscribe({ error: () => {} }); // 無論成功失敗都清除
-    }
+    this.http.post(`${API}/auth/logout`, {}).subscribe({ error: () => {} });
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     this.currentUser.set(null);

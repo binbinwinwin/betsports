@@ -1,18 +1,21 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, inject, effect } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { Match, BetSelection, BetItem, PlacedBet, BetMode } from '../models/match.model';
+import { AuthService, API } from './auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class BetService {
+  private http = inject(HttpClient);
+  private authService = inject(AuthService);
+
   betItems = signal<BetItem[]>([]);
-  balance = signal<number>(50000);
+  balance = signal<number>(0);
   placedBets = signal<PlacedBet[]>([]);
   betMode = signal<BetMode>('single');
   parlayStake = signal<number>(0);
 
-  /** 結算通知，供 UI 顯示 toast */
   settleNotify$ = new Subject<{ bet: PlacedBet; result: 'won' | 'lost' }>();
-
   private settleTimers = new Map<string, ReturnType<typeof setTimeout>>();
 
   totalStake = computed(() => {
@@ -21,11 +24,7 @@ export class BetService {
   });
 
   parlayOdds = computed(() =>
-    parseFloat(
-      this.betItems()
-        .reduce((product, item) => product * item.odds, 1)
-        .toFixed(2)
-    )
+    parseFloat(this.betItems().reduce((p, item) => p * item.odds, 1).toFixed(2))
   );
 
   totalPotentialWin = computed(() => {
@@ -35,6 +34,48 @@ export class BetService {
     return this.betItems().reduce((sum, item) => sum + (item.stake || 0) * item.odds, 0);
   });
 
+  constructor() {
+    effect(() => {
+      if (this.authService.currentUser()) {
+        this.loadBalance();
+        this.loadHistory();
+      } else {
+        this.balance.set(0);
+        this.placedBets.set([]);
+        this.betItems.set([]);
+      }
+    });
+  }
+
+  private loadBalance(): void {
+    this.http.get<{ balance: number }>(`${API}/user/balance`).subscribe({
+      next: ({ balance }) => this.balance.set(balance),
+    });
+  }
+
+  private loadHistory(): void {
+    this.http.get<any[]>(`${API}/bets`).subscribe({
+      next: (bets) => {
+        const mapped: PlacedBet[] = bets.map(b => ({
+          id: b.id,
+          matchId: b.matchId,
+          matchName: b.matchName,
+          selection: b.selection,
+          selectionLabel: b.selectionLabel,
+          odds: b.odds,
+          stake: b.stake,
+          placedAt: new Date(b.placedAt),
+          status: b.status,
+          potentialWin: b.potentialWin,
+          isParlay: b.isParlay,
+          parlayLegs: b.parlayLegs,
+          combinedOdds: b.combinedOdds,
+        }));
+        this.placedBets.set(mapped);
+      },
+    });
+  }
+
   switchMode(mode: BetMode): void {
     this.betMode.set(mode);
     this.parlayStake.set(0);
@@ -42,9 +83,7 @@ export class BetService {
 
   addBet(match: Match, selection: BetSelection): void {
     const selectionLabels: Record<BetSelection, string> = {
-      home: '主隊勝',
-      draw: '平局',
-      away: '客隊勝',
+      home: '主隊勝', draw: '平局', away: '客隊勝',
     };
 
     const existingIndex = this.betItems().findIndex(
@@ -74,7 +113,6 @@ export class BetService {
       return [...filtered, newItem];
     });
 
-    // 選到第 2 場時自動切換到過關
     if (this.betItems().length >= 2) {
       this.betMode.set('parlay');
     }
@@ -82,8 +120,6 @@ export class BetService {
 
   removeBet(id: string): void {
     this.betItems.update(items => items.filter(b => b.id !== id));
-
-    // 剩下不足 2 場時自動切回單場
     if (this.betItems().length < 2) {
       this.betMode.set('single');
       this.parlayStake.set(0);
@@ -103,81 +139,97 @@ export class BetService {
   placeBets(): boolean {
     const items = this.betItems();
     const total = this.totalStake();
+    if (items.length === 0 || total <= 0 || total > this.balance()) return false;
 
-    if (items.length === 0 || total <= 0) return false;
-    if (total > this.balance()) return false;
+    let betsToPlace: any[];
 
     if (this.betMode() === 'parlay') {
       if (items.length < 2) return false;
-
-      const combinedOdds = this.parlayOdds();
       const stake = this.parlayStake();
+      const combinedOdds = this.parlayOdds();
       const potentialWin = parseFloat((stake * combinedOdds).toFixed(0));
-      const legs = items.map(item => ({
-        matchName: item.matchName,
-        selectionLabel: item.selectionLabel,
-        odds: item.odds,
-      }));
-      const count = items.length;
-
-      const parlayBet: PlacedBet = {
+      betsToPlace = [{
         id: `parlay-${Date.now()}`,
         matchId: 'parlay',
-        matchName: `${count} 串 1 過關`,
+        matchName: `${items.length} 串 1 過關`,
         selection: 'home',
-        selectionLabel: `${count} 串 1`,
+        selectionLabel: `${items.length} 串 1`,
         odds: combinedOdds,
         stake,
-        placedAt: new Date(),
-        status: 'pending',
         potentialWin,
         isParlay: true,
-        parlayLegs: legs,
+        parlayLegs: items.map(i => ({
+          matchName: i.matchName,
+          selectionLabel: i.selectionLabel,
+          odds: i.odds,
+        })),
         combinedOdds,
-      };
-
-      this.placedBets.update(prev => [parlayBet, ...prev]);
-      this.balance.update(b => b - stake);
-      this.betItems.set([]);
-      this.parlayStake.set(0);
-      this.scheduleSettle(parlayBet);
-      return true;
+      }];
+    } else {
+      betsToPlace = items
+        .filter(item => item.stake > 0)
+        .map(item => ({
+          id: item.id,
+          matchId: item.matchId,
+          matchName: item.matchName,
+          selection: item.selection,
+          selectionLabel: item.selectionLabel,
+          odds: item.odds,
+          stake: item.stake,
+          potentialWin: parseFloat((item.stake * item.odds).toFixed(0)),
+          isParlay: false,
+        }));
+      if (betsToPlace.length === 0) return false;
     }
 
-    // 單場模式
-    const newPlaced: PlacedBet[] = items
-      .filter(item => item.stake > 0)
-      .map(item => ({
-        ...item,
-        placedAt: new Date(),
-        status: 'pending' as const,
-        potentialWin: parseFloat((item.stake * item.odds).toFixed(0)),
-      }));
+    this.http.post<any[]>(`${API}/bets/place`, {
+      bets: betsToPlace,
+      totalStake: total,
+    }).subscribe({
+      next: (created) => {
+        const newBets: PlacedBet[] = created.map(b => ({
+          id: b.id,
+          matchId: b.matchId,
+          matchName: b.matchName,
+          selection: b.selection,
+          selectionLabel: b.selectionLabel,
+          odds: b.odds,
+          stake: b.stake,
+          placedAt: new Date(b.placedAt),
+          status: b.status,
+          potentialWin: b.potentialWin,
+          isParlay: b.isParlay,
+          parlayLegs: b.parlayLegs,
+          combinedOdds: b.combinedOdds,
+        }));
+        this.placedBets.update(prev => [...newBets, ...prev]);
+        this.balance.update(b => b - total);
+        this.betItems.set([]);
+        this.parlayStake.set(0);
+        newBets.forEach(bet => this.scheduleSettle(bet));
+      },
+    });
 
-    if (newPlaced.length === 0) return false;
-
-    this.placedBets.update(prev => [...newPlaced, ...prev]);
-    this.balance.update(b => b - newPlaced.reduce((s, i) => s + i.stake, 0));
-    this.betItems.set([]);
-    newPlaced.forEach(bet => this.scheduleSettle(bet));
     return true;
   }
 
   private scheduleSettle(bet: PlacedBet): void {
-    // 過關勝率較低（20%），單場 40%
     const winRate = bet.isParlay ? 0.2 : 0.4;
     const timer = setTimeout(() => {
       const result: 'won' | 'lost' = Math.random() < winRate ? 'won' : 'lost';
 
-      this.placedBets.update(bets =>
-        bets.map(b => b.id === bet.id ? { ...b, status: result } : b)
-      );
+      this.http.post(`${API}/bets/${bet.id}/settle`, { result }).subscribe({
+        next: () => {
+          this.placedBets.update(bets =>
+            bets.map(b => b.id === bet.id ? { ...b, status: result } : b)
+          );
+          if (result === 'won') {
+            this.balance.update(b => b + bet.potentialWin);
+          }
+          this.settleNotify$.next({ bet, result });
+        },
+      });
 
-      if (result === 'won') {
-        this.balance.update(b => b + bet.potentialWin);
-      }
-
-      this.settleNotify$.next({ bet, result });
       this.settleTimers.delete(bet.id);
     }, 15000);
 
@@ -190,8 +242,6 @@ export class BetService {
   }
 
   isSelected(matchId: string, selection: BetSelection): boolean {
-    return this.betItems().some(
-      b => b.matchId === matchId && b.selection === selection
-    );
+    return this.betItems().some(b => b.matchId === matchId && b.selection === selection);
   }
 }

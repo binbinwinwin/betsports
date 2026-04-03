@@ -1,0 +1,189 @@
+.site-footer {
+  background: #010409;
+  border-top: 1px solid #21262d;
+  margin-top: 60px;
+}
+
+.footer-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 48px 24px 24px;
+}
+
+/* 上半 */
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 40px;
+}
+
+/* 品牌 */
+.footer-logo {
+  font-size: 20px;
+  font-weight: 800;
+  color: #f0b429;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+
+.footer-desc {
+  font-size: 13px;
+  color: #6e7681;
+  line-height: 1.75;
+  margin: 0 0 16px;
+  max-width: 420px;
+}
+
+.footer-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  font-size: 11px;
+  color: #8b949e;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 20px;
+  padding: 3px 10px;
+}
+
+/* 客戶服務欄 */
+.footer-col-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #e6edf3;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 16px;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-col ul li {
+  font-size: 13px;
+  color: #6e7681;
+  cursor: default;
+  transition: color 0.2s;
+}
+
+.footer-col ul li:hover {
+  color: #8b949e;
+}
+
+.footer-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contact-item {
+  font-size: 12px;
+  color: #6e7681;
+  padding-top: 8px;
+}
+
+/* 分隔線 */
+.footer-divider {
+  border-top: 1px solid #21262d;
+  margin-bottom: 24px;
+}
+
+/* 下半 */
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 8px 0 4px;
+}
+
+.footer-bottom-left {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footer-copyright {
+  font-size: 12px;
+  color: #484f58;
+  line-height: 1.5;
+}
+
+.footer-disclaimer {
+  font-size: 11px;
+  color: #3d444d;
+  line-height: 1.5;
+}
+
+.footer-lang {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  font-size: 12px;
+  color: #3d444d;
+  cursor: default;
+  flex-shrink: 0;
+  border: 1px solid #21262d;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.footer-lang span {
+  padding: 6px 14px;
+  border-right: 1px solid #21262d;
+  transition: background 0.2s, color 0.2s;
+}
+
+.footer-lang span:last-child {
+  border-right: none;
+}
+
+.footer-lang span:hover {
+  background: #161b22;
+  color: #6e7681;
+}
+
+.lang-active {
+  color: #8b949e !important;
+  background: #161b22;
+}
+
+/* ── RWD ── */
+@media (max-width: 768px) {
+  .footer-inner {
+    padding: 36px 20px 20px;
+  }
+
+  .footer-top {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+
+  .footer-desc {
+    max-width: 100%;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .footer-bottom-left {
+    gap: 6px;
+  }
+}

@@ -1,69 +1,12 @@
 .app-layout {
-  display: flex;
   min-height: calc(100vh - 60px);
   margin-top: 60px;
   max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
   padding: 0 16px;
-  gap: 20px;
 }
 
 .main-content {
-  flex: 1;
-  min-width: 0;
-}
-
-.bet-slip-panel {
-  width: 320px;
-  flex-shrink: 0;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  position: sticky;
-  top: 80px;
-  align-self: flex-start;
-  max-height: calc(100vh - 100px);
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #30363d transparent;
-}
-
-.bet-slip-panel::-webkit-scrollbar {
-  width: 4px;
-}
-
-.bet-slip-panel::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.bet-slip-panel::-webkit-scrollbar-thumb {
-  background: #30363d;
-  border-radius: 2px;
-}
-
-/* 響應式：小螢幕投注單移到底部 */
-@media (max-width: 900px) {
-  .app-layout {
-    flex-direction: column;
-    padding: 0 12px;
-  }
-
-  .bet-slip-panel {
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: auto;
-    max-height: 60vh;
-    padding: 0;
-    background: #0d1117;
-    border-top: 2px solid #f0b429;
-    z-index: 50;
-    overflow-y: auto;
-  }
-
-  .main-content {
-    padding-bottom: 280px;
-  }
+  width: 100%;
 }

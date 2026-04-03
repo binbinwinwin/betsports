@@ -7,6 +7,14 @@
   flex-direction: column;
 }
 
+@media (max-width: 900px) {
+  .bet-slip {
+    border: none;
+    border-radius: 0;
+    width: 100%;
+  }
+}
+
 .slip-header {
   display: flex;
   justify-content: space-between;

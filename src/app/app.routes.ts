@@ -6,12 +6,28 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/login/login').then(m => m.Login),
   },
   {
+    path: 'register',
+    loadComponent: () => import('./pages/register/register').then(m => m.Register),
+  },
+  {
     path: '',
     loadComponent: () => import('./pages/home/home').then(m => m.Home),
   },
   {
     path: 'history',
     loadComponent: () => import('./pages/history/history').then(m => m.History),
+  },
+  {
+    path: 'profile',
+    loadComponent: () => import('./pages/profile/profile').then(m => m.Profile),
+  },
+  {
+    path: 'deposit',
+    loadComponent: () => import('./pages/transaction/transaction').then(m => m.Transaction),
+  },
+  {
+    path: 'withdraw',
+    loadComponent: () => import('./pages/transaction/transaction').then(m => m.Transaction),
   },
   {
     path: '**',

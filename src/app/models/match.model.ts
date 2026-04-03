@@ -1,4 +1,4 @@
-export type SportType = 'football' | 'basketball' | 'baseball' | 'tennis';
+export type SportType = 'football' | 'basketball' | 'baseball' | 'tennis' | 'esports';
 export type MatchStatus = 'live' | 'upcoming' | 'finished';
 export type BetSelection = 'home' | 'draw' | 'away';
 export type BetMode = 'single' | 'parlay';

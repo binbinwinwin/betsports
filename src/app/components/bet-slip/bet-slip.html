@@ -1,10 +1,12 @@
 <div class="bet-slip">
-  <div class="slip-header">
-    <span class="slip-title">🎫 投注單</span>
-    @if (betItems.length > 0) {
-      <button class="clear-btn" (click)="clearBets()">清空</button>
-    }
-  </div>
+  @if (showHeader()) {
+    <div class="slip-header">
+      <span class="slip-title">🎫 投注單</span>
+      @if (betItems.length > 0) {
+        <button class="clear-btn" (click)="clearBets()">清空</button>
+      }
+    </div>
+  }
 
   <!-- 模式切換 -->
   @if (betItems.length > 0) {

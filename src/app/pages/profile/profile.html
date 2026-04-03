@@ -1,0 +1,67 @@
+<div class="profile-page">
+
+  <!-- 用戶資訊卡 -->
+  <div class="profile-card">
+    <h2 class="profile-title">會員中心</h2>
+    <div class="user-info-section">
+      <div class="avatar">{{ auth.currentUser()?.username?.charAt(0)?.toUpperCase() }}</div>
+      <div class="user-detail">
+        <div class="user-username">{{ auth.currentUser()?.username }}</div>
+        <div class="user-badge">會員</div>
+      </div>
+      <div class="user-balance-block">
+        <div class="user-balance-label">目前餘額</div>
+        <div class="user-balance-amount">NT$ {{ betService.balance().toLocaleString('zh-TW') }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 修改密碼卡 -->
+  <div class="profile-card">
+    <div class="section-title">修改密碼</div>
+
+    @if (pwError()) {
+      <div class="form-error">{{ pwError() }}</div>
+    }
+    @if (pwSuccess()) {
+      <div class="form-success">密碼已成功修改</div>
+    }
+
+    <form class="profile-form" (ngSubmit)="submit()">
+      <div class="form-group">
+        <label class="form-label">目前密碼</label>
+        <input
+          class="form-input"
+          type="password"
+          [(ngModel)]="currentPassword"
+          name="currentPassword"
+          placeholder="請輸入目前密碼"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-label">新密碼</label>
+        <input
+          class="form-input"
+          type="password"
+          [(ngModel)]="newPassword"
+          name="newPassword"
+          placeholder="至少 5 個字元，需含英文和數字"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-label">確認新密碼</label>
+        <input
+          class="form-input"
+          type="password"
+          [(ngModel)]="confirmPassword"
+          name="confirmPassword"
+          placeholder="再輸入一次新密碼"
+        />
+      </div>
+      <button class="submit-btn" type="submit" [disabled]="pwLoading()">
+        @if (pwLoading()) { 修改中... } @else { 確認修改 }
+      </button>
+    </form>
+  </div>
+
+</div>

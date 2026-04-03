@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BetService } from '../../services/bet.service';
 import { BetItem, BetMode } from '../../models/match.model';
@@ -11,6 +11,7 @@ import { BetItem, BetMode } from '../../models/match.model';
   styleUrl: './bet-slip.css',
 })
 export class BetSlip {
+  showHeader = input(true);
   betService = inject(BetService);
   successMsg = signal(false);
 

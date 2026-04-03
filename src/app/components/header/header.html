@@ -1,25 +1,25 @@
 <header class="site-header">
   <div class="header-inner">
     <!-- Logo -->
-    <a class="logo" routerLink="/">
+    <a class="logo" [routerLink]="currentUser() ? '/' : '/login'">
       ⚽ <span class="logo-text">BetSports</span>
       <span class="logo-sub">球類投注</span>
     </a>
 
-    <!-- 導覽 -->
+    <!-- 導覽（桌機） -->
     <nav class="nav-links">
-      <a
-        routerLink="/"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
-        class="nav-link"
-      >賽事</a>
-      <a
-        routerLink="/history"
-        routerLinkActive="active"
-        class="nav-link"
-      >投注紀錄</a>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">賽事</a>
+      <a routerLink="/history" routerLinkActive="active" class="nav-link">投注紀錄</a>
+      @if (currentUser()) {
+        <a routerLink="/deposit" routerLinkActive="active" class="nav-link nav-link-deposit">入金</a>
+        <a routerLink="/withdraw" routerLinkActive="active" class="nav-link nav-link-withdraw">出金</a>
+      }
     </nav>
+
+    <!-- 漢堡按鈕（手機） -->
+    <button class="hamburger" (click)="toggleMenu()" [class.open]="menuOpen()">
+      <span></span><span></span><span></span>
+    </button>
 
     <!-- 右側：餘額 + 投注單計數 + 登出 -->
     <div class="header-right">
@@ -29,19 +29,45 @@
           <span class="badge-label">待投注</span>
         </div>
       }
-      <div class="balance-display">
-        <span class="balance-label">餘額</span>
-        <span class="balance-amount">NT$ {{ formatBalance(balance) }}</span>
-      </div>
+      @if (currentUser()) {
+        <div class="balance-display">
+          <span class="balance-label">餘額</span>
+          <span class="balance-amount">NT$ {{ formatBalance(balance) }}</span>
+        </div>
+      }
       @if (currentUser()) {
         <div class="user-area">
-          <span class="user-name">{{ currentUser()!.display_name }}</span>
+          <a routerLink="/profile" class="profile-link" title="會員中心">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="4"/>
+              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+            </svg>
+          </a>
           <button class="logout-btn" (click)="logout()">登出</button>
         </div>
       }
     </div>
   </div>
 </header>
+
+<!-- 手機漢堡選單 -->
+@if (menuOpen()) {
+  <div class="mobile-menu">
+    <a routerLink="/" class="mobile-nav-link" (click)="closeMenu()">賽事</a>
+    <a routerLink="/history" class="mobile-nav-link" (click)="closeMenu()">投注紀錄</a>
+    @if (currentUser()) {
+      <a routerLink="/deposit" class="mobile-nav-link" (click)="closeMenu()">入金</a>
+      <a routerLink="/withdraw" class="mobile-nav-link" (click)="closeMenu()">出金</a>
+      <div class="mobile-balance">
+        <span class="mobile-balance-label">餘額</span>
+        <span class="mobile-balance-amount">NT$ {{ formatBalance(balance) }}</span>
+      </div>
+      <a routerLink="/profile" class="mobile-nav-link" (click)="closeMenu()">會員中心</a>
+      <button class="mobile-logout-btn" (click)="logout()">登出</button>
+    }
+  </div>
+  <div class="menu-overlay" (click)="closeMenu()"></div>
+}
 
 <!-- 結算 Toast 通知 -->
 <div class="toast-container">

@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, signal, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BetService } from '../../services/bet.service';
@@ -25,13 +25,29 @@ export class Header implements OnInit, OnDestroy {
   private sub!: Subscription;
 
   currentUser = this.authService.currentUser;
+  menuOpen = signal(false);
+
+  toggleMenu(): void {
+    this.menuOpen.update(v => !v);
+  }
+
+  closeMenu(): void {
+    this.menuOpen.set(false);
+  }
+
+  @HostListener('window:resize')
+  onResize(): void {
+    if (window.innerWidth > 768) {
+      this.menuOpen.set(false);
+    }
+  }
 
   logout(): void {
     this.authService.logout();
     window.location.href = '/login';
   }
-  private toastIdCounter = 0;
 
+  private toastIdCounter = 0;
   toasts = signal<Toast[]>([]);
 
   get balance() { return this.betService.balance(); }
