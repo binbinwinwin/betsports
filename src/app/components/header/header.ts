@@ -3,6 +3,8 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BetService } from '../../services/bet.service';
 import { AuthService } from '../../services/auth.service';
+import { TranslationService } from '../../services/translation.service';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 import { PlacedBet } from '../../models/match.model';
 
 interface Toast {
@@ -15,13 +17,14 @@ interface Toast {
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, TranslatePipe],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
 export class Header implements OnInit, OnDestroy {
   private betService = inject(BetService);
   private authService = inject(AuthService);
+  ts = inject(TranslationService);
   private sub!: Subscription;
 
   currentUser = this.authService.currentUser;

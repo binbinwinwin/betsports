@@ -3,13 +3,15 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AuthService, API } from '../../services/auth.service';
 import { BetService } from '../../services/bet.service';
+import { TranslationService } from '../../services/translation.service';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, TranslatePipe],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
@@ -17,6 +19,7 @@ export class Profile {
   private http = inject(HttpClient);
   auth = inject(AuthService);
   betService = inject(BetService);
+  ts = inject(TranslationService);
 
   currentPassword = '';
   newPassword = '';
@@ -27,19 +30,19 @@ export class Profile {
 
   submit(): void {
     if (!this.currentPassword || !this.newPassword || !this.confirmPassword) {
-      this.pwError.set('請填寫所有欄位');
+      this.pwError.set(this.ts.t('profile.errorFillAll'));
       return;
     }
     if (this.newPassword.length < 5) {
-      this.pwError.set('新密碼至少需要 5 個字元');
+      this.pwError.set(this.ts.t('profile.errorMinLen'));
       return;
     }
     if (!/[a-zA-Z]/.test(this.newPassword) || !/[0-9]/.test(this.newPassword)) {
-      this.pwError.set('新密碼必須包含至少一個英文字母和一個數字');
+      this.pwError.set(this.ts.t('profile.errorFormat'));
       return;
     }
     if (this.newPassword !== this.confirmPassword) {
-      this.pwError.set('兩次密碼不一致');
+      this.pwError.set(this.ts.t('profile.errorMismatch'));
       return;
     }
 
@@ -53,7 +56,7 @@ export class Profile {
     ).pipe(
       catchError(err => {
         this.pwLoading.set(false);
-        this.pwError.set(err.error?.detail ?? '修改失敗，請稍後再試');
+        this.pwError.set(err.error?.detail ?? this.ts.t('profile.errorFailed'));
         return throwError(() => err);
       })
     ).subscribe(() => {

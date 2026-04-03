@@ -1,9 +1,9 @@
 <div class="history-page">
   <div class="page-header">
-    <h1 class="page-title">📋 投注紀錄</h1>
+    <h1 class="page-title">📋 {{ 'history.title' | t }}</h1>
     @if (placedBets.length > 0) {
       <div class="summary-chip">
-        共 {{ placedBets.length }} 筆 ｜ 總投注 NT$ {{ formatNumber(totalStake()) }}
+        {{ 'history.summary' | t: { count: placedBets.length, total: formatNumber(totalStake()) } }}
       </div>
     }
   </div>
@@ -11,9 +11,9 @@
   @if (placedBets.length === 0) {
     <div class="empty-state">
       <div class="empty-icon">🎫</div>
-      <p class="empty-title">尚無投注紀錄</p>
-      <p class="empty-hint">前往賽事頁面選擇投注項目</p>
-      <a routerLink="/" class="go-home-btn">前往賽事</a>
+      <p class="empty-title">{{ 'history.empty' | t }}</p>
+      <p class="empty-hint">{{ 'history.emptyHint' | t }}</p>
+      <a routerLink="/" class="go-home-btn">{{ 'history.goEvents' | t }}</a>
     </div>
   } @else {
     <div class="bet-list">
@@ -24,7 +24,7 @@
             <div class="bet-header-left">
               <span class="bet-time">{{ formatDate(bet.placedAt) }}</span>
               @if (bet.isParlay) {
-                <span class="parlay-tag">串關</span>
+                <span class="parlay-tag">{{ 'history.parlay' | t }}</span>
               }
             </div>
             <span class="bet-status" [class]="'status-badge-' + bet.status">
@@ -52,20 +52,20 @@
           <div class="bet-details">
             @if (!bet.isParlay) {
               <div class="detail-item">
-                <span class="detail-label">投注選項</span>
+                <span class="detail-label">{{ 'history.selection' | t }}</span>
                 <span class="detail-value selection">{{ bet.selectionLabel }}</span>
               </div>
             }
             <div class="detail-item">
-              <span class="detail-label">{{ bet.isParlay ? '總賠率' : '賠率' }}</span>
+              <span class="detail-label">{{ (bet.isParlay ? 'history.totalOdds' : 'history.odds') | t }}</span>
               <span class="detail-value odds">{{ bet.odds.toFixed(2) }}</span>
             </div>
             <div class="detail-item">
-              <span class="detail-label">投注金額</span>
+              <span class="detail-label">{{ 'history.stake' | t }}</span>
               <span class="detail-value">NT$ {{ formatNumber(bet.stake) }}</span>
             </div>
             <div class="detail-item">
-              <span class="detail-label">預估獲利</span>
+              <span class="detail-label">{{ 'history.potentialWin' | t }}</span>
               <span class="detail-value win">NT$ {{ formatNumber(bet.potentialWin) }}</span>
             </div>
           </div>

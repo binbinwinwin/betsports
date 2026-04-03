@@ -1,7 +1,7 @@
 <div class="login-page">
   <div class="login-card">
     <div class="login-logo">⚽ BetSports</div>
-    <h2 class="login-title">註冊帳號</h2>
+    <h2 class="login-title">{{ 'register.title' | t }}</h2>
 
     @if (error()) {
       <div class="login-error">{{ error() }}</div>
@@ -9,48 +9,48 @@
 
     <form class="login-form" (ngSubmit)="submit()">
       <div class="form-group">
-        <label class="form-label">帳號</label>
+        <label class="form-label">{{ 'register.username' | t }}</label>
         <input
           class="form-input"
           type="text"
           [(ngModel)]="username"
           name="username"
-          placeholder="請輸入帳號"
+          [placeholder]="'register.usernamePh' | t"
           autocomplete="username"
         />
       </div>
 
       <div class="form-group">
-        <label class="form-label">密碼</label>
+        <label class="form-label">{{ 'register.password' | t }}</label>
         <input
           class="form-input"
           type="password"
           [(ngModel)]="password"
           name="password"
-          placeholder="請輸入密碼"
+          [placeholder]="'register.passwordPh' | t"
           autocomplete="new-password"
         />
       </div>
 
       <div class="form-group">
-        <label class="form-label">確認密碼</label>
+        <label class="form-label">{{ 'register.confirmPw' | t }}</label>
         <input
           class="form-input"
           type="password"
           [(ngModel)]="confirmPassword"
           name="confirmPassword"
-          placeholder="再輸入一次密碼"
+          [placeholder]="'register.confirmPwPh' | t"
           autocomplete="new-password"
         />
       </div>
 
       <button class="login-btn" type="submit" [disabled]="loading()">
-        @if (loading()) { 註冊中... } @else { 註冊 }
+        @if (loading()) { {{ 'register.loading' | t }} } @else { {{ 'register.submit' | t }} }
       </button>
     </form>
 
     <div class="switch-link">
-      已有帳號？<a routerLink="/login">登入</a>
+      {{ 'register.hasAccount' | t }}<a routerLink="/login">{{ 'register.login' | t }}</a>
     </div>
   </div>
 </div>

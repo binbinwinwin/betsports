@@ -1,7 +1,7 @@
 <div class="login-page">
   <div class="login-card">
     <div class="login-logo">⚽ BetSports</div>
-    <h2 class="login-title">會員登入</h2>
+    <h2 class="login-title">{{ 'login.title' | t }}</h2>
 
     @if (error()) {
       <div class="login-error">{{ error() }}</div>
@@ -9,36 +9,36 @@
 
     <form class="login-form" (ngSubmit)="submit()">
       <div class="form-group">
-        <label class="form-label">帳號</label>
+        <label class="form-label">{{ 'login.username' | t }}</label>
         <input
           class="form-input"
           type="text"
           [(ngModel)]="username"
           name="username"
-          placeholder="請輸入帳號"
+          [placeholder]="'login.usernamePlaceholder' | t"
           autocomplete="username"
         />
       </div>
 
       <div class="form-group">
-        <label class="form-label">密碼</label>
+        <label class="form-label">{{ 'login.password' | t }}</label>
         <input
           class="form-input"
           type="password"
           [(ngModel)]="password"
           name="password"
-          placeholder="請輸入密碼"
+          [placeholder]="'login.passwordPlaceholder' | t"
           autocomplete="current-password"
         />
       </div>
 
       <button class="login-btn" type="submit" [disabled]="loading()">
-        @if (loading()) { 登入中... } @else { 登入 }
+        @if (loading()) { {{ 'login.loading' | t }} } @else { {{ 'login.submit' | t }} }
       </button>
     </form>
 
     <div class="switch-link">
-      還沒有帳號？<a routerLink="/register">立即註冊</a>
+      {{ 'login.noAccount' | t }}<a routerLink="/register">{{ 'login.register' | t }}</a>
     </div>
   </div>
 </div>

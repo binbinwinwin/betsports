@@ -4,13 +4,15 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService, API } from '../../services/auth.service';
 import { BetService } from '../../services/bet.service';
+import { TranslationService } from '../../services/translation.service';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-transaction',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, TranslatePipe],
   templateUrl: './transaction.html',
   styleUrl: './transaction.css',
 })
@@ -19,6 +21,7 @@ export class Transaction implements OnInit {
   private route = inject(ActivatedRoute);
   auth = inject(AuthService);
   betService = inject(BetService);
+  ts = inject(TranslationService);
 
   type = signal<'deposit' | 'withdraw'>('deposit');
   amount = 0;
@@ -39,7 +42,7 @@ export class Transaction implements OnInit {
 
   submit(): void {
     if (!this.amount || this.amount <= 0) {
-      this.error.set('請輸入有效金額');
+      this.error.set(this.ts.t('tx.errorInvalidAmount'));
       return;
     }
     this.loading.set(true);
@@ -51,18 +54,15 @@ export class Transaction implements OnInit {
       .pipe(
         catchError(err => {
           this.loading.set(false);
-          this.error.set(err.error?.detail ?? '操作失敗');
+          this.error.set(err.error?.detail ?? this.ts.t('tx.errorFailed'));
           return throwError(() => err);
         })
       )
       .subscribe(({ balance }) => {
         this.loading.set(false);
         this.betService.balance.set(balance);
-        this.success.set(
-          this.type() === 'deposit'
-            ? `入金成功 NT$ ${this.amount.toLocaleString('zh-TW')}`
-            : `出金成功 NT$ ${this.amount.toLocaleString('zh-TW')}`
-        );
+        const key = this.type() === 'deposit' ? 'tx.depositSuccess' : 'tx.withdrawSuccess';
+        this.success.set(this.ts.t(key, { amount: this.amount.toLocaleString('zh-TW') }));
         this.amount = 0;
       });
   }

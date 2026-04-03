@@ -4,6 +4,8 @@ import { MatchCard } from '../../components/match-card/match-card';
 import { BetSlip } from '../../components/bet-slip/bet-slip';
 import { AuthService } from '../../services/auth.service';
 import { BetService } from '../../services/bet.service';
+import { TranslationService } from '../../services/translation.service';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 import { SportType } from '../../models/match.model';
 
 type TabType = 'all' | SportType;
@@ -17,7 +19,7 @@ interface Tab {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [MatchCard, BetSlip],
+  imports: [MatchCard, BetSlip, TranslatePipe],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -25,6 +27,7 @@ export class Home {
   private sportsService = inject(SportsService);
   auth = inject(AuthService);
   private betService = inject(BetService);
+  ts = inject(TranslationService);
 
   mobileSlipOpen = signal(false);
   isMobile = signal(window.innerWidth <= 900);
@@ -39,13 +42,13 @@ export class Home {
     this.isMobile.set(window.innerWidth <= 900);
   }
 
-  tabs: Tab[] = [
-    { key: 'all',        label: '全部',  icon: '🏆' },
-    { key: 'football',   label: '足球',  icon: '⚽' },
-    { key: 'basketball', label: '籃球',  icon: '🏀' },
-    { key: 'baseball',   label: '棒球',  icon: '⚾' },
-    { key: 'tennis',     label: '網球',  icon: '🎾' },
-    { key: 'esports',    label: '電競',  icon: '🎮' },
+  tabs: { key: TabType; labelKey: string; icon: string }[] = [
+    { key: 'all',        labelKey: 'home.allTab',    icon: '🏆' },
+    { key: 'football',   labelKey: 'home.football',  icon: '⚽' },
+    { key: 'basketball', labelKey: 'home.basketball', icon: '🏀' },
+    { key: 'baseball',   labelKey: 'home.baseball',  icon: '⚾' },
+    { key: 'tennis',     labelKey: 'home.tennis',    icon: '🎾' },
+    { key: 'esports',    labelKey: 'home.esports',   icon: '🎮' },
   ];
 
   activeTab = signal<TabType>('all');

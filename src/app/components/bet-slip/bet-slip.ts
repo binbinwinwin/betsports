@@ -1,18 +1,21 @@
 import { Component, inject, signal, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BetService } from '../../services/bet.service';
+import { TranslationService } from '../../services/translation.service';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 import { BetItem, BetMode } from '../../models/match.model';
 
 @Component({
   selector: 'app-bet-slip',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, TranslatePipe],
   templateUrl: './bet-slip.html',
   styleUrl: './bet-slip.css',
 })
 export class BetSlip {
   showHeader = input(true);
   betService = inject(BetService);
+  ts = inject(TranslationService);
   successMsg = signal(false);
 
   get betItems() { return this.betService.betItems(); }
