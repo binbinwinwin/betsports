@@ -1,0 +1,41 @@
+@if (article) {
+  <div class="detail-page">
+    <a class="back-link" routerLink="/news">{{ 'news.back' | t }}</a>
+
+    <article class="detail-article">
+      <div class="detail-image">{{ article.image }}</div>
+
+      <div class="detail-meta">
+        <span class="category-tag" [style.color]="article.categoryColor" [style.border-color]="article.categoryColor + '40'" [style.background]="article.categoryColor + '12'">
+          {{ article.category }}
+        </span>
+        @if (article.hot) {
+          <span class="hot-badge">{{ 'news.hot' | t }}</span>
+        }
+        <span class="detail-date">{{ article.date }}</span>
+        <span class="detail-read">⏱ {{ article.readTime }}{{ 'news.readUnit' | t }}</span>
+      </div>
+
+      <h1 class="detail-title">{{ article.title }}</h1>
+      <p class="detail-lead">{{ article.summary }}</p>
+
+      <div class="detail-divider"></div>
+
+      <div class="detail-content">
+        @for (para of article.content; track $index) {
+          <p>{{ para }}</p>
+        }
+      </div>
+
+      <div class="detail-footer">
+        <span>{{ 'news.disclaimer' | t }}</span>
+      </div>
+    </article>
+  </div>
+} @else {
+  <div class="not-found">
+    <div class="not-found-icon">📰</div>
+    <p>{{ 'news.notFound' | t }}</p>
+    <a class="back-link" routerLink="/news">{{ 'news.back' | t }}</a>
+  </div>
+}

@@ -1,59 +1,53 @@
 <footer class="site-footer">
   <div class="footer-inner">
 
-    <!-- 上半：品牌 + 客戶服務 -->
     <div class="footer-top">
 
       <!-- 品牌介紹 -->
       <div class="footer-brand">
         <div class="footer-logo">⚽ <span>BetSports</span></div>
-        <p class="footer-desc">
-          BetSports 提供足球、籃球、棒球、網球等多項球類賽事的即時投注服務，
-          讓您隨時掌握最新賠率，安全、快速、公正。
-        </p>
+        <p class="footer-desc">{{ 'footer.desc' | t }}</p>
         <div class="footer-badges">
-          <span class="badge">🔒 SSL 加密</span>
-          <span class="badge">✅ 持牌經營</span>
-          <span class="badge">⚡ 即時賠率</span>
+          <span class="badge">{{ 'footer.ssl' | t }}</span>
+          <span class="badge">{{ 'footer.licensed' | t }}</span>
+          <span class="badge">{{ 'footer.liveOdds' | t }}</span>
         </div>
       </div>
 
       <!-- 客戶服務 -->
       <div class="footer-col">
-        <div class="footer-col-title">客戶服務</div>
+        <div class="footer-col-title">{{ 'footer.customerService' | t }}</div>
         <ul>
-          <li>常見問題</li>
-          <li>投注規則</li>
-          <li>負責任博彩</li>
-          <li>隱私權政策</li>
-          <li>服務條款</li>
+          <li>{{ 'footer.faq' | t }}</li>
+          <li>{{ 'footer.rules' | t }}</li>
+          <li>{{ 'footer.responsible' | t }}</li>
+          <li>{{ 'footer.privacy' | t }}</li>
+          <li>{{ 'footer.terms' | t }}</li>
         </ul>
       </div>
 
       <!-- 聯絡我們 -->
       <div class="footer-col">
-        <div class="footer-col-title">聯絡我們</div>
+        <div class="footer-col-title">{{ 'footer.contact' | t }}</div>
         <div class="footer-contact">
           <div class="contact-item">📧 support&#64;betsports.com</div>
-          <div class="contact-item">💬 線上客服</div>
+          <div class="contact-item">{{ 'footer.liveChat' | t }}</div>
         </div>
       </div>
 
     </div>
 
-    <!-- 分隔線 -->
     <div class="footer-divider"></div>
 
-    <!-- 下半：版權 + 免責聲明 -->
     <div class="footer-bottom">
       <div class="footer-bottom-left">
-        <div class="footer-copyright">© {{ year }} BetSports Ltd. 版權所有。本平台僅供娛樂用途。</div>
-        <div class="footer-disclaimer">⚠️ 請理性投注，未滿 18 歲禁止參與。若有博彩問題，請尋求專業協助。</div>
+        <div class="footer-copyright">{{ 'footer.copyright' | t: { year: year } }}</div>
+        <div class="footer-disclaimer">{{ 'footer.disclaimer' | t }}</div>
       </div>
       <div class="footer-lang">
-        <span class="lang-active">繁體中文</span>
-        <span>English</span>
-        <span>日本語</span>
+        <span [class.lang-active]="ts.lang() === 'zh-TW'" (click)="setLang('zh-TW')">繁體中文</span>
+        <span [class.lang-active]="ts.lang() === 'en'" (click)="setLang('en')">English</span>
+        <span [class.lang-active]="ts.lang() === 'ja'" (click)="setLang('ja')">日本語</span>
       </div>
     </div>
 

@@ -2,16 +2,19 @@ import { Component, inject } from '@angular/core';
 import { BetService } from '../../services/bet.service';
 import { PlacedBet } from '../../models/match.model';
 import { RouterLink } from '@angular/router';
+import { TranslationService } from '../../services/translation.service';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-history',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, TranslatePipe],
   templateUrl: './history.html',
   styleUrl: './history.css',
 })
 export class History {
   private betService = inject(BetService);
+  ts = inject(TranslationService);
 
   get placedBets(): PlacedBet[] {
     return this.betService.placedBets();
@@ -32,8 +35,7 @@ export class History {
   }
 
   statusLabel(status: PlacedBet['status']): string {
-    const labels = { pending: '待結果', won: '勝', lost: '敗' };
-    return labels[status];
+    return this.ts.t('history.' + status);
   }
 
   totalStake(): number {

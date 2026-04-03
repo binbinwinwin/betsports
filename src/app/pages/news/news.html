@@ -1,0 +1,57 @@
+<div class="news-page">
+  <div class="news-header">
+    <h1 class="news-title">{{ 'news.title' | t }}</h1>
+    <p class="news-subtitle">{{ 'news.subtitle' | t }}</p>
+  </div>
+
+  <!-- 置頂熱門新聞 -->
+  <div class="hot-section">
+    @for (article of articles; track article.id) {
+      @if (article.hot) {
+        <a class="hot-card" [routerLink]="['/news', article.id]">
+          <div class="hot-image">{{ article.image }}</div>
+          <div class="hot-body">
+            <div class="article-meta">
+              <span class="category-tag" [style.color]="article.categoryColor" [style.border-color]="article.categoryColor + '40'" [style.background]="article.categoryColor + '12'">
+                {{ article.category }}
+              </span>
+              <span class="hot-badge">{{ 'news.hot' | t }}</span>
+              <span class="article-date">{{ article.date }}</span>
+            </div>
+            <h2 class="hot-title">{{ article.title }}</h2>
+            <p class="hot-summary">{{ article.summary }}</p>
+            <div class="article-footer">
+              <span class="read-time">⏱ {{ article.readTime }}{{ 'news.readUnit' | t }}</span>
+              <span class="read-more">{{ 'news.readMore' | t }}</span>
+            </div>
+          </div>
+        </a>
+      }
+    }
+  </div>
+
+  <!-- 一般新聞列表 -->
+  <div class="articles-grid">
+    @for (article of articles; track article.id) {
+      @if (!article.hot) {
+        <a class="article-card" [routerLink]="['/news', article.id]">
+          <div class="article-image">{{ article.image }}</div>
+          <div class="article-body">
+            <div class="article-meta">
+              <span class="category-tag" [style.color]="article.categoryColor" [style.border-color]="article.categoryColor + '40'" [style.background]="article.categoryColor + '12'">
+                {{ article.category }}
+              </span>
+              <span class="article-date">{{ article.date }}</span>
+            </div>
+            <h3 class="article-title">{{ article.title }}</h3>
+            <p class="article-summary">{{ article.summary }}</p>
+            <div class="article-footer">
+              <span class="read-time">⏱ {{ article.readTime }}{{ 'news.readUnit' | t }}</span>
+              <span class="read-more">{{ 'news.readMore' | t }}</span>
+            </div>
+          </div>
+        </a>
+      }
+    }
+  </div>
+</div>

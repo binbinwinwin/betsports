@@ -1,9 +1,9 @@
 <div class="bet-slip">
   @if (showHeader()) {
     <div class="slip-header">
-      <span class="slip-title">🎫 投注單</span>
+      <span class="slip-title">🎫 {{ 'slip.title' | t }}</span>
       @if (betItems.length > 0) {
-        <button class="clear-btn" (click)="clearBets()">清空</button>
+        <button class="clear-btn" (click)="clearBets()">{{ 'slip.clear' | t }}</button>
       }
     </div>
   }
@@ -11,36 +11,30 @@
   <!-- 模式切換 -->
   @if (betItems.length > 0) {
     <div class="mode-tabs">
-      <button
-        class="mode-tab"
-        [class.active]="betMode === 'single'"
-        (click)="switchMode('single')"
-      >單場</button>
-      <button
-        class="mode-tab"
-        [class.active]="betMode === 'parlay'"
-        (click)="switchMode('parlay')"
-      >過關 <span class="parlay-badge">串關</span></button>
+      <button class="mode-tab" [class.active]="betMode === 'single'" (click)="switchMode('single')">
+        {{ 'slip.single' | t }}
+      </button>
+      <button class="mode-tab" [class.active]="betMode === 'parlay'" (click)="switchMode('parlay')">
+        {{ 'slip.parlay' | t }} <span class="parlay-badge">{{ 'slip.parlayBadge' | t }}</span>
+      </button>
     </div>
   }
 
   <!-- 成功提示 -->
   @if (successMsg()) {
-    <div class="success-msg">
-      ✅ 投注成功！餘額已更新
-    </div>
+    <div class="success-msg">{{ 'slip.betWon' | t }}</div>
   }
 
   <!-- 空狀態 -->
   @if (betItems.length === 0 && !successMsg()) {
     <div class="empty-state">
       <div class="empty-icon">📋</div>
-      <p>請選擇投注項目</p>
-      <p class="empty-hint">點擊賽事賠率加入投注單</p>
+      <p>{{ 'slip.empty' | t }}</p>
+      <p class="empty-hint">{{ 'slip.emptyHint' | t }}</p>
     </div>
   }
 
-  <!-- ========== 單場模式 ========== -->
+  <!-- 單場模式 -->
   @if (betMode === 'single') {
     @for (item of betItems; track item.id) {
       <div class="bet-item" [class.bet-item-empty]="item.stake <= 0">
@@ -55,36 +49,25 @@
         <div class="stake-row">
           <div class="stake-input-wrap">
             <span class="currency">NT$</span>
-            <input
-              type="number"
-              class="stake-input"
-              [value]="item.stake || ''"
-              placeholder="輸入金額"
-              min="0"
-              (change)="updateStake(item, $event)"
-            />
+            <input type="number" class="stake-input" [value]="item.stake || ''" [placeholder]="'slip.enterStake' | t" min="0" (change)="updateStake(item, $event)" />
           </div>
           @if (item.stake > 0) {
-            <div class="potential-win">
-              預估獲利：NT$ {{ formatNumber(potentialWin(item)) }}
-            </div>
+            <div class="potential-win">{{ 'slip.potentialWin' | t: { n: formatNumber(potentialWin(item)) } }}</div>
           } @else {
-            <div class="empty-hint-inline">⚠ 未填金額，此場不計入投注</div>
+            <div class="empty-hint-inline">{{ 'slip.notFilled' | t }}</div>
           }
         </div>
       </div>
     }
   }
 
-  <!-- ========== 過關模式 ========== -->
+  <!-- 過關模式 -->
   @if (betMode === 'parlay') {
-    <!-- 過關說明列 -->
     <div class="parlay-header">
-      <span class="parlay-title">{{ betItems.length }} 串 1 過關</span>
-      <span class="parlay-combined-odds">總賠率 <strong>{{ parlayOdds.toFixed(2) }}</strong></span>
+      <span class="parlay-title">{{ 'slip.parlayHeader' | t: { n: betItems.length } }}</span>
+      <span class="parlay-combined-odds">{{ 'slip.parlayOdds' | t }} <strong>{{ parlayOdds.toFixed(2) }}</strong></span>
     </div>
 
-    <!-- 各腳 (Legs) -->
     @for (item of betItems; track item.id) {
       <div class="parlay-leg">
         <div class="leg-left">
@@ -98,90 +81,68 @@
       </div>
     }
 
-    <!-- 過關需至少 2 場提示 -->
     @if (betItems.length < 2) {
-      <div class="parlay-warning">⚠ 過關投注至少需選擇 2 場賽事</div>
+      <div class="parlay-warning">{{ 'slip.parlayWarning' | t }}</div>
     }
 
-    <!-- 過關金額輸入 -->
     @if (betItems.length >= 2) {
       <div class="parlay-stake-section">
         <div class="stake-input-wrap">
           <span class="currency">NT$</span>
-          <input
-            type="number"
-            class="stake-input"
-            [value]="parlayStake || ''"
-            placeholder="輸入投注金額"
-            min="0"
-            (change)="updateParlayStake($event)"
-          />
+          <input type="number" class="stake-input" [value]="parlayStake || ''" [placeholder]="'slip.enterAmount' | t" min="0" (change)="updateParlayStake($event)" />
         </div>
         @if (parlayStake > 0) {
-          <div class="potential-win">
-            預估獲利：NT$ {{ formatNumber(totalPotentialWin) }}
-          </div>
+          <div class="potential-win">{{ 'slip.potentialWin' | t: { n: formatNumber(totalPotentialWin) } }}</div>
         }
       </div>
     }
   }
 
-  <!-- ========== 底部合計 ========== -->
+  <!-- 底部合計 -->
   @if (betItems.length > 0) {
     <div class="slip-footer">
-
       @if (betMode === 'single') {
-        <!-- 單場場次統計 -->
         <div class="bet-count-row">
           @if (validCount > 0) {
-            <span class="count-valid">✔ {{ validCount }} 場將下注</span>
+            <span class="count-valid">{{ 'slip.validCount' | t: { n: validCount } }}</span>
           }
           @if (emptyCount > 0) {
-            <span class="count-empty">{{ emptyCount }} 場未填金額（略過）</span>
+            <span class="count-empty">{{ 'slip.emptyCount' | t: { n: emptyCount } }}</span>
           }
         </div>
       }
 
       <div class="summary-row">
-        <span>投注合計</span>
+        <span>{{ 'slip.totalStake' | t }}</span>
         <span class="summary-value">NT$ {{ formatNumber(totalStake) }}</span>
       </div>
       <div class="summary-row">
-        <span>預估總獲利</span>
+        <span>{{ 'slip.totalWin' | t }}</span>
         <span class="summary-value highlight">NT$ {{ formatNumber(totalPotentialWin) }}</span>
       </div>
       <div class="balance-row">
-        <span>目前餘額</span>
+        <span>{{ 'slip.balance' | t }}</span>
         <span>NT$ {{ formatNumber(balance) }}</span>
       </div>
 
       @if (totalStake > balance) {
-        <div class="error-msg">餘額不足，請調整投注金額</div>
+        <div class="error-msg">{{ 'slip.insufficientFunds' | t }}</div>
       }
 
       @if (betMode === 'single') {
-        <button
-          class="place-bet-btn"
-          [disabled]="validCount === 0 || totalStake > balance"
-          (click)="placeBets()"
-        >
-          @if (validCount > 0) { 確認投注（{{ validCount }} 場）}
-          @else { 請填寫至少一場金額 }
+        <button class="place-bet-btn" [disabled]="validCount === 0 || totalStake > balance" (click)="placeBets()">
+          @if (validCount > 0) { {{ 'slip.placeBetCount' | t: { n: validCount } }} }
+          @else { {{ 'slip.fillAmount' | t }} }
         </button>
       }
 
       @if (betMode === 'parlay') {
-        <button
-          class="place-bet-btn parlay-btn"
-          [disabled]="betItems.length < 2 || parlayStake <= 0 || totalStake > balance"
-          (click)="placeBets()"
-        >
-          @if (betItems.length < 2) { 請再選擇賽事 }
-          @else if (parlayStake <= 0) { 請輸入投注金額 }
-          @else { 確認 {{ betItems.length }} 串 1 過關 }
+        <button class="place-bet-btn parlay-btn" [disabled]="betItems.length < 2 || parlayStake <= 0 || totalStake > balance" (click)="placeBets()">
+          @if (betItems.length < 2) { {{ 'slip.parlayMin' | t }} }
+          @else if (parlayStake <= 0) { {{ 'slip.parlayFillAmount' | t }} }
+          @else { {{ 'slip.parlayConfirm' | t: { n: betItems.length } }} }
         </button>
       }
-
     </div>
   }
 </div>

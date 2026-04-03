@@ -14,6 +14,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/home/home').then(m => m.Home),
   },
   {
+    path: 'news',
+    loadComponent: () => import('./pages/news/news').then(m => m.News),
+  },
+  {
+    path: 'news/:id',
+    loadComponent: () => import('./pages/news/news-detail').then(m => m.NewsDetail),
+  },
+  {
     path: 'history',
     loadComponent: () => import('./pages/history/history').then(m => m.History),
   },

@@ -1,11 +1,11 @@
 <div class="home-page">
   <!-- 頁面標題 -->
   <div class="page-header">
-    <h1 class="page-title">賽事投注</h1>
+    <h1 class="page-title">{{ 'home.title' | t }}</h1>
     @if (liveCount() > 0) {
       <div class="live-indicator">
         <span class="live-dot"></span>
-        <span>{{ liveCount() }} 場進行中</span>
+        <span>{{ liveCount() }} {{ 'home.live' | t }}</span>
       </div>
     }
   </div>
@@ -19,7 +19,7 @@
         (click)="setTab(tab.key)"
       >
         <span class="tab-icon">{{ tab.icon }}</span>
-        <span class="tab-label">{{ tab.label }}</span>
+        <span class="tab-label">{{ tab.labelKey | t }}</span>
       </button>
     }
   </div>
@@ -38,7 +38,7 @@
       } @else {
         <div class="no-matches">
           <div class="no-icon">🔍</div>
-          <p>此分類目前無賽事</p>
+          <p>{{ 'home.noMatches' | t }}</p>
         </div>
       }
     </div>
@@ -49,7 +49,7 @@
         <!-- 手機版專用標題列 -->
         <div class="mobile-slip-header">
           <span class="mobile-slip-title">
-            🎫 投注單
+            🎫 {{ 'slip.title' | t }}
             @if (betCount > 0) {
               <span class="mobile-slip-count">{{ betCount }}</span>
             }

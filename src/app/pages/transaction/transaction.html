@@ -1,22 +1,22 @@
 <div class="profile-page">
   <div class="profile-card">
-    <h2 class="profile-title">{{ type() === 'deposit' ? '入金' : '出金' }}</h2>
+    <h2 class="profile-title">{{ (type() === 'deposit' ? 'tx.deposit' : 'tx.withdraw') | t }}</h2>
 
     <!-- 用戶餘額 -->
     <div class="user-info-section">
       <div class="avatar">{{ auth.currentUser()?.username?.charAt(0)?.toUpperCase() }}</div>
       <div class="user-detail">
         <div class="user-username">{{ auth.currentUser()?.username }}</div>
-        <div class="user-badge">會員</div>
+        <div class="user-badge">{{ 'profile.member' | t }}</div>
       </div>
       <div class="user-balance-block">
-        <div class="user-balance-label">目前餘額</div>
+        <div class="user-balance-label">{{ 'profile.balance' | t }}</div>
         <div class="user-balance-amount">NT$ {{ betService.balance().toLocaleString('zh-TW') }}</div>
       </div>
     </div>
 
     <!-- 快速金額 -->
-    <div class="section-title">快速選擇</div>
+    <div class="section-title">{{ 'tx.quickSelect' | t }}</div>
     <div class="quick-amounts">
       @for (q of quickAmounts; track q) {
         <button class="quick-btn" (click)="setQuick(q)">
@@ -35,13 +35,13 @@
 
     <form class="profile-form" (ngSubmit)="submit()">
       <div class="form-group">
-        <label class="form-label">{{ type() === 'deposit' ? '入金金額' : '出金金額' }}</label>
+        <label class="form-label">{{ (type() === 'deposit' ? 'tx.depositAmount' : 'tx.withdrawAmount') | t }}</label>
         <input
           class="form-input"
           type="number"
           [(ngModel)]="amount"
           name="amount"
-          placeholder="請輸入金額"
+          [placeholder]="'tx.placeholder' | t"
           min="1"
         />
       </div>
@@ -51,9 +51,9 @@
         [class.withdraw-btn]="type() === 'withdraw'"
         [disabled]="loading()"
       >
-        @if (loading()) { 處理中... }
-        @else if (type() === 'deposit') { 確認入金 }
-        @else { 確認出金 }
+        @if (loading()) { {{ 'tx.processing' | t }} }
+        @else if (type() === 'deposit') { {{ 'tx.confirmDeposit' | t }} }
+        @else { {{ 'tx.confirmWithdraw' | t }} }
       </button>
     </form>
   </div>

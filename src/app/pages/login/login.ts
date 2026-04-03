@@ -2,17 +2,20 @@ import { Component, signal, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { TranslationService } from '../../services/translation.service';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, TranslatePipe],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
 export class Login {
   private auth = inject(AuthService);
   private router = inject(Router);
+  ts = inject(TranslationService);
 
   username = '';
   password = '';
@@ -21,7 +24,7 @@ export class Login {
 
   submit(): void {
     if (!this.username || !this.password) {
-      this.error.set('請輸入帳號和密碼');
+      this.error.set(this.ts.t('login.errorFill'));
       return;
     }
     this.loading.set(true);
