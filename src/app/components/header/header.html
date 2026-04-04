@@ -36,6 +36,13 @@
           <span class="balance-amount">NT$ {{ formatBalance(balance) }}</span>
         </div>
       }
+      <!-- 語言切換 -->
+      <div class="lang-switcher">
+        <span [class.lang-active]="ts.lang() === 'zh-TW'" (click)="ts.setLang('zh-TW')">中</span>
+        <span [class.lang-active]="ts.lang() === 'en'" (click)="ts.setLang('en')">EN</span>
+        <span [class.lang-active]="ts.lang() === 'ja'" (click)="ts.setLang('ja')">日</span>
+      </div>
+
       <!-- 主題切換 -->
       <button class="theme-toggle" (click)="themeService.toggle()" [title]="themeService.theme() === 'dark' ? '切換淺色' : '切換深色'">
         {{ themeService.theme() === 'dark' ? '☀️' : '🌙' }}
@@ -70,6 +77,11 @@
         <span class="mobile-balance-amount">NT$ {{ formatBalance(balance) }}</span>
       </div>
       <a routerLink="/profile" class="mobile-nav-link" (click)="closeMenu()">{{ 'nav.profile' | t }}</a>
+      <div class="mobile-lang-switcher">
+        <span [class.lang-active]="ts.lang() === 'zh-TW'" (click)="ts.setLang('zh-TW'); closeMenu()">繁體中文</span>
+        <span [class.lang-active]="ts.lang() === 'en'" (click)="ts.setLang('en'); closeMenu()">English</span>
+        <span [class.lang-active]="ts.lang() === 'ja'" (click)="ts.setLang('ja'); closeMenu()">日本語</span>
+      </div>
       <button class="mobile-theme-toggle" (click)="themeService.toggle(); closeMenu()">
         {{ themeService.theme() === 'dark' ? '☀️ 切換淺色模式' : '🌙 切換深色模式' }}
       </button>

@@ -109,6 +109,35 @@ html, body {
   color: #1f2328 !important;
 }
 
+[data-theme="light"] .mobile-lang-switcher {
+  border-color: #d0d7de !important;
+}
+
+[data-theme="light"] .mobile-lang-switcher span {
+  color: #57606a !important;
+  border-right-color: #d0d7de !important;
+}
+
+[data-theme="light"] .mobile-lang-switcher span.lang-active {
+  background: #eaeef2 !important;
+  color: #1f2328 !important;
+}
+
+[data-theme="light"] .lang-switcher {
+  border-color: #d0d7de !important;
+}
+
+[data-theme="light"] .lang-switcher span {
+  color: #57606a !important;
+  border-right-color: #d0d7de !important;
+}
+
+[data-theme="light"] .lang-switcher span.lang-active,
+[data-theme="light"] .lang-switcher span:hover {
+  background: #eaeef2 !important;
+  color: #1f2328 !important;
+}
+
 /* 手機版投注單面板 */
 [data-theme="light"] .bet-slip-wrap {
   background: #ffffff !important;
