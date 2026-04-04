@@ -23,6 +23,14 @@ export class Transaction implements OnInit {
   betService = inject(BetService);
   ts = inject(TranslationService);
 
+  memberLabel(): string {
+    const tier = this.betService.memberTier();
+    if (tier === 'diamond') return this.ts.t('profile.member.diamond');
+    if (tier === 'vip') return this.ts.t('profile.member.vip');
+    if (tier === 'premium') return this.ts.t('profile.member.premium');
+    return this.ts.t('profile.member');
+  }
+
   type = signal<'deposit' | 'withdraw'>('deposit');
   amount = 0;
   loading = signal(false);
@@ -58,9 +66,10 @@ export class Transaction implements OnInit {
           return throwError(() => err);
         })
       )
-      .subscribe(({ balance }) => {
+      .subscribe(({ balance, total_deposited }: any) => {
         this.loading.set(false);
         this.betService.balance.set(balance);
+        if (total_deposited !== undefined) this.betService.totalDeposited.set(total_deposited);
         const key = this.type() === 'deposit' ? 'tx.depositSuccess' : 'tx.withdrawSuccess';
         this.success.set(this.ts.t(key, { amount: this.amount.toLocaleString('zh-TW') }));
         this.amount = 0;

@@ -1,3 +1,7 @@
+import os
+from dotenv import load_dotenv
+load_dotenv()
+from groq import Groq
 from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
@@ -10,10 +14,10 @@ from sqlalchemy import create_engine, Column, Integer, String, Float, Boolean, J
 from sqlalchemy.orm import DeclarativeBase, Session
 
 # ── 設定 ────────────────────────────────────────────
-SECRET_KEY = "betsports-secret-key-change-in-production"
+SECRET_KEY = os.getenv("SECRET_KEY", "betsports-secret-key-change-in-production")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24
-DATABASE_URL = "postgresql://postgres:edcwsxaz7@localhost:5432/betsports"
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:edcwsxaz7@localhost:5432/betsports")
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 bearer_scheme = HTTPBearer()
@@ -32,6 +36,7 @@ class User(Base):
     hashed_password = Column(String, nullable=False)
     display_name    = Column(String, nullable=False)
     balance         = Column(Integer, default=50000, nullable=False)
+    total_deposited = Column(Integer, default=0, nullable=False)
 
 class BetRecord(Base):
     __tablename__ = "placed_bets"
@@ -125,6 +130,14 @@ class SettleBetRequest(BaseModel):
 class TransactionRequest(BaseModel):
     amount: int
 
+class ChatMessage(BaseModel):
+    role: str   # 'user' | 'assistant'
+    text: str
+
+class ChatRequest(BaseModel):
+    messages: list[ChatMessage]
+    lang: str = 'zh-TW'
+
 # ── 工具函數 ─────────────────────────────────────────
 def create_token(user_id: int, username: str) -> str:
     expire = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
@@ -167,9 +180,10 @@ def bet_to_response(bet: BetRecord) -> BetRecordResponse:
 # ── App ──────────────────────────────────────────────
 app = FastAPI(title="BetSports API")
 
+_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:4200").split(",")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:4200"],
+    allow_origins=_origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -220,7 +234,7 @@ def change_password(
 # ── 餘額路由 ──────────────────────────────────────────
 @app.get("/user/balance")
 def get_balance(current_user: User = Depends(get_current_user)):
-    return {"balance": current_user.balance}
+    return {"balance": current_user.balance, "total_deposited": current_user.total_deposited}
 
 # ── 投注路由 ──────────────────────────────────────────
 @app.post("/bets/place", response_model=list[BetRecordResponse])
@@ -285,6 +299,64 @@ def settle_bet(
     db.commit()
 
 # ── 出入金路由 ────────────────────────────────────────
+CHAT_SYSTEM = {
+    'zh-TW': """你是 BetSports 的專業客服助理。BetSports 是一個合法的線上運動投注平台，提供足球、籃球、棒球、網球、電競等多項賽事的即時投注服務。
+
+你的任務是親切、專業地回答顧客的問題，包括：
+- 入金與出金操作方式（最低入金 NT$1,000，出金1-3工作天）
+- 投注規則（單場投注、串關投注）
+- 賠率計算方式
+- 帳號相關問題（註冊、登入、修改密碼）
+- 賽事與遊戲規則
+
+回覆請保持簡潔（100字以內），使用繁體中文，語氣友善專業。若問題超出範圍，建議顧客透過線上客服聯繫。""",
+    'en': """You are a professional customer support assistant for BetSports, a licensed online sports betting platform offering live betting on football, basketball, baseball, tennis, and esports.
+
+Your role is to assist customers with questions about:
+- Deposit and withdrawal (min deposit NT$1,000, withdrawals in 1-3 business days)
+- Betting rules (single bets, parlay bets)
+- How odds work
+- Account issues (registration, login, password changes)
+- Events and game rules
+
+Keep replies concise (under 80 words), friendly and professional. For issues beyond your scope, direct customers to live support.""",
+    'ja': """あなたは BetSports のプロフェッショナルなカスタマーサポートアシスタントです。BetSports はサッカー、バスケットボール、野球、テニス、eスポーツなどのリアルタイムベッティングサービスを提供する公認オンラインスポーツベッティングプラットフォームです。
+
+以下の質問にお答えします：
+- 入金・出金の方法（最低入金 NT$1,000、出金は1〜3営業日）
+- ベットルール（シングル・パーレー）
+- オッズの計算方法
+- アカウント関連（登録・ログイン・パスワード変更）
+- イベントとゲームルール
+
+返答は簡潔に（80文字以内）、丁寧かつプロフェッショナルなトーンで日本語でお答えください。""",
+}
+
+@app.post("/chat")
+def chat(body: ChatRequest):
+    api_key = os.getenv("GROQ_API_KEY")
+    if not api_key:
+        raise HTTPException(status_code=500, detail="GROQ_API_KEY not configured")
+
+    system = CHAT_SYSTEM.get(body.lang, CHAT_SYSTEM['zh-TW'])
+    client = Groq(api_key=api_key)
+
+    groq_messages = [{"role": "system", "content": system}] + [
+        {"role": m.role if m.role == "user" else "assistant", "content": m.text}
+        for m in body.messages
+        if m.role in ("user", "assistant")
+    ]
+
+    try:
+        response = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            max_tokens=512,
+            messages=groq_messages,
+        )
+        return {"reply": response.choices[0].message.content}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.post("/user/deposit")
 def deposit(
     body: TransactionRequest,
@@ -297,8 +369,9 @@ def deposit(
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="單次入金上限為 NT$ 1,000,000")
     user = db.query(User).filter(User.id == current_user.id).first()
     user.balance += body.amount
+    user.total_deposited += body.amount
     db.commit()
-    return {"balance": user.balance}
+    return {"balance": user.balance, "total_deposited": user.total_deposited}
 
 @app.post("/user/withdraw")
 def withdraw(

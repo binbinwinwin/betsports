@@ -1,7 +1,9 @@
 import { Component, signal, inject, ElementRef, ViewChild, AfterViewChecked } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 import { TranslationService } from '../../services/translation.service';
 import { TranslatePipe } from '../../pipes/translate.pipe';
+import { API } from '../../services/auth.service';
 
 interface Message {
   role: 'bot' | 'user';
@@ -15,17 +17,6 @@ const QUICK_QUESTIONS = [
   { labelKey: 'chat.q.account', answerKey: 'chat.a.account' },
 ];
 
-const KEYWORD_MAP: { keywords: string[]; answerKey: string }[] = [
-  { keywords: ['入金', 'deposit', '充值', '儲值', '入款'], answerKey: 'chat.a.deposit' },
-  { keywords: ['出金', 'withdraw', '提款', '出款', '提現'], answerKey: 'chat.a.withdraw' },
-  { keywords: ['賠率', 'odds', '賠錢', '倍率'], answerKey: 'chat.a.odds' },
-  { keywords: ['帳號', 'account', '登入', '密碼', '註冊', 'login', 'password'], answerKey: 'chat.a.account' },
-  { keywords: ['投注', 'bet', '下注', '押注'], answerKey: 'chat.a.bet' },
-  { keywords: ['串關', 'parlay', '過關'], answerKey: 'chat.a.parlay' },
-  { keywords: ['規則', 'rule', '條款', '限制'], answerKey: 'chat.a.rules' },
-  { keywords: ['客服', 'service', '聯絡', 'contact', '幫助', 'help'], answerKey: 'chat.a.contact' },
-];
-
 @Component({
   selector: 'app-chatbot',
   standalone: true,
@@ -37,10 +28,12 @@ export class Chatbot implements AfterViewChecked {
   @ViewChild('messageList') messageListRef!: ElementRef;
 
   ts = inject(TranslationService);
+  private http = inject(HttpClient);
 
   open = signal(false);
   inputText = '';
   messages = signal<Message[]>([]);
+  loading = signal(false);
   private initialized = false;
 
   toggle(): void {
@@ -57,31 +50,46 @@ export class Chatbot implements AfterViewChecked {
     this.open.set(false);
   }
 
+  reset(): void {
+    this.messages.set([{ role: 'bot', text: this.ts.t('chat.welcome') }]);
+  }
+
   send(): void {
     const text = this.inputText.trim();
-    if (!text) return;
+    if (!text || this.loading()) return;
     this.inputText = '';
     this.messages.update(m => [...m, { role: 'user', text }]);
-    setTimeout(() => this.respond(text), 400);
+    this.callClaude(text);
   }
 
-  quickAsk(labelKey: string, answerKey: string): void {
+  quickAsk(labelKey: string): void {
+    if (this.loading()) return;
     const question = this.ts.t(labelKey);
     this.messages.update(m => [...m, { role: 'user', text: question }]);
-    setTimeout(() => {
-      this.messages.update(m => [...m, { role: 'bot', text: this.ts.t(answerKey) }]);
-    }, 400);
+    this.callClaude(question);
   }
 
-  private respond(text: string): void {
-    const lower = text.toLowerCase();
-    const matched = KEYWORD_MAP.find(({ keywords }) =>
-      keywords.some(k => lower.includes(k.toLowerCase()))
-    );
-    const reply = matched
-      ? this.ts.t(matched.answerKey)
-      : this.ts.t('chat.a.unknown');
-    this.messages.update(m => [...m, { role: 'bot', text: reply }]);
+  private callClaude(userText: string): void {
+    this.loading.set(true);
+
+    // 把對話歷史轉成 API 格式（跳過歡迎訊息）
+    const history = this.messages()
+      .filter(m => !(m.role === 'bot' && m.text === this.ts.t('chat.welcome')))
+      .map(m => ({ role: m.role === 'bot' ? 'assistant' : 'user', text: m.text }));
+
+    this.http.post<{ reply: string }>(`${API}/chat`, {
+      messages: history,
+      lang: this.ts.lang(),
+    }).subscribe({
+      next: ({ reply }) => {
+        this.loading.set(false);
+        this.messages.update(m => [...m, { role: 'bot', text: reply }]);
+      },
+      error: () => {
+        this.loading.set(false);
+        this.messages.update(m => [...m, { role: 'bot', text: this.ts.t('chat.a.unknown') }]);
+      },
+    });
   }
 
   get quickQuestions() {

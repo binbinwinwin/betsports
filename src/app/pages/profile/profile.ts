@@ -21,6 +21,14 @@ export class Profile {
   betService = inject(BetService);
   ts = inject(TranslationService);
 
+  memberLabel(): string {
+    const tier = this.betService.memberTier();
+    if (tier === 'diamond') return this.ts.t('profile.member.diamond');
+    if (tier === 'vip') return this.ts.t('profile.member.vip');
+    if (tier === 'premium') return this.ts.t('profile.member.premium');
+    return this.ts.t('profile.member');
+  }
+
   currentPassword = '';
   newPassword = '';
   confirmPassword = '';

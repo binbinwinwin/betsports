@@ -7,4 +7,6 @@
 </div>
 
 <app-footer />
-<app-chatbot />
+@if (auth.currentUser()) {
+  <app-chatbot />
+}

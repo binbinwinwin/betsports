@@ -26,18 +26,30 @@
           <div class="msg-bubble">{{ msg.text }}</div>
         </div>
       }
+      @if (loading()) {
+        <div class="chat-msg bot">
+          <span class="msg-avatar">🤖</span>
+          <div class="msg-bubble typing">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      }
     </div>
 
-    <!-- 快速問題 -->
-    @if (messages().length <= 1) {
-      <div class="quick-questions">
+    <!-- 快速問題 / 重新提問 -->
+    <div class="quick-questions">
+      @if (messages().length <= 1) {
         @for (q of quickQuestions; track q.labelKey) {
-          <button class="quick-btn" (click)="quickAsk(q.labelKey, q.answerKey)">
+          <button class="quick-btn" [disabled]="loading()" (click)="quickAsk(q.labelKey)">
             {{ q.labelKey | t }}
           </button>
         }
-      </div>
-    }
+      } @else {
+        <button class="quick-btn reset-btn" [disabled]="loading()" (click)="reset()">
+          {{ 'chat.reset' | t }}
+        </button>
+      }
+    </div>
 
     <div class="chat-input-row">
       <input
@@ -45,9 +57,12 @@
         type="text"
         [(ngModel)]="inputText"
         [placeholder]="'chat.placeholder' | t"
+        [disabled]="loading()"
         (keydown.enter)="send()"
       />
-      <button class="chat-send" (click)="send()">{{ 'chat.send' | t }}</button>
+      <button class="chat-send" (click)="send()" [disabled]="loading()">
+        {{ 'chat.send' | t }}
+      </button>
     </div>
   </div>
 }

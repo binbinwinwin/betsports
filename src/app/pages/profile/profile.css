@@ -36,6 +36,45 @@
   display: flex;
   align-items: center;
   gap: 18px;
+  transition: background 0.4s, border-color 0.4s;
+}
+
+/* 高級：紫色 */
+.tier-bg-premium {
+  background: linear-gradient(135deg, #1e0635 0%, #350a5e 100%) !important;
+  border-color: #7a20c0 !important;
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.18) !important;
+}
+
+/* 尊榮：金色 */
+.tier-bg-vip {
+  background: linear-gradient(135deg, #271a00 0%, #3d2800 100%) !important;
+  border-color: #7a5a00 !important;
+  box-shadow: 0 0 24px rgba(240, 180, 41, 0.18) !important;
+}
+
+/* 鑽石：白鑽光澤 */
+.tier-bg-diamond {
+  position: relative !important;
+  background: linear-gradient(120deg,
+    #12122a 0%,
+    #1e1e3a 20%,
+    #5a5a7a 35%,
+    #c0c8e0 50%,
+    #5a5a7a 65%,
+    #1e1e3a 80%,
+    #12122a 100%
+  ) !important;
+  background-size: 250% 250% !important;
+  border-color: #d0dcf0 !important;
+  animation: diamondShimmer 2.2s ease-in-out infinite !important;
+  overflow: hidden !important;
+}
+
+@keyframes diamondShimmer {
+  0%   { background-position: 0% 50%;   box-shadow: 0 0 18px rgba(200, 214, 240, 0.2),  inset 0 0 12px rgba(180, 200, 240, 0.05); }
+  50%  { background-position: 100% 50%; box-shadow: 0 0 40px rgba(220, 235, 255, 0.55), inset 0 0 24px rgba(200, 220, 255, 0.15); }
+  100% { background-position: 0% 50%;   box-shadow: 0 0 18px rgba(200, 214, 240, 0.2),  inset 0 0 12px rgba(180, 200, 240, 0.05); }
 }
 
 .avatar {
@@ -70,13 +109,55 @@
   display: inline-flex;
   align-items: center;
   font-size: 11px;
+  font-weight: 600;
+  border-radius: 20px;
+  padding: 3px 10px;
+  width: fit-content;
+  letter-spacing: 0.3px;
+  transition: all 0.3s;
+}
+
+/* 一般會員 */
+.user-badge.tier-normal {
   color: #60a5fa;
   background: rgba(59, 130, 246, 0.12);
   border: 1px solid rgba(59, 130, 246, 0.25);
-  border-radius: 20px;
-  padding: 2px 10px;
-  width: fit-content;
-  letter-spacing: 0.3px;
+}
+
+/* 高級會員：紫色 */
+.user-badge.tier-premium {
+  color: #c084fc;
+  background: rgba(168, 85, 247, 0.12);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.2);
+}
+
+/* 尊榮會員：金色 */
+.user-badge.tier-vip {
+  color: #f0b429;
+  background: rgba(240, 180, 41, 0.12);
+  border: 1px solid rgba(240, 180, 41, 0.45);
+  box-shadow: 0 0 12px rgba(240, 180, 41, 0.3);
+  animation: vipGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes vipGlow {
+  from { box-shadow: 0 0 8px rgba(240, 180, 41, 0.3); }
+  to   { box-shadow: 0 0 18px rgba(240, 180, 41, 0.6); }
+}
+
+/* 鑽石會員：白鑽 */
+.user-badge.tier-diamond {
+  color: #e8f0fe;
+  background: rgba(200, 214, 229, 0.1);
+  border: 1px solid rgba(200, 214, 229, 0.5);
+  box-shadow: 0 0 14px rgba(200, 214, 229, 0.25);
+  animation: diamondGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes diamondGlow {
+  from { box-shadow: 0 0 6px rgba(200, 214, 229, 0.2); }
+  to   { box-shadow: 0 0 18px rgba(220, 230, 245, 0.6); }
 }
 
 /* 修改密碼區 */

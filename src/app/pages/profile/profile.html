@@ -3,11 +3,18 @@
   <!-- 用戶資訊卡 -->
   <div class="profile-card">
     <h2 class="profile-title">{{ 'profile.title' | t }}</h2>
-    <div class="user-info-section">
-      <div class="avatar">{{ auth.currentUser()?.username?.charAt(0)?.toUpperCase() }}</div>
+    <div class="user-info-section"
+         [class.tier-bg-premium]="betService.memberTier() === 'premium'"
+         [class.tier-bg-vip]="betService.memberTier() === 'vip'"
+         [class.tier-bg-diamond]="betService.memberTier() === 'diamond'">
+      <div class="avatar">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
+          <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+        </svg>
+      </div>
       <div class="user-detail">
         <div class="user-username">{{ auth.currentUser()?.username }}</div>
-        <div class="user-badge">{{ 'profile.member' | t }}</div>
+        <div class="user-badge" [class]="'tier-' + betService.memberTier()">{{ memberLabel() }}</div>
       </div>
       <div class="user-balance-block">
         <div class="user-balance-label">{{ 'profile.balance' | t }}</div>

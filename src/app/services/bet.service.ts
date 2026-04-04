@@ -11,9 +11,18 @@ export class BetService {
 
   betItems = signal<BetItem[]>([]);
   balance = signal<number>(0);
+  totalDeposited = signal<number>(0);
   placedBets = signal<PlacedBet[]>([]);
   betMode = signal<BetMode>('single');
   parlayStake = signal<number>(0);
+
+  memberTier = computed(() => {
+    const d = this.totalDeposited();
+    if (d >= 500000) return 'diamond';
+    if (d >= 100000) return 'vip';
+    if (d >= 50000) return 'premium';
+    return 'normal';
+  });
 
   settleNotify$ = new Subject<{ bet: PlacedBet; result: 'won' | 'lost' }>();
   private settleTimers = new Map<string, ReturnType<typeof setTimeout>>();
@@ -48,8 +57,11 @@ export class BetService {
   }
 
   private loadBalance(): void {
-    this.http.get<{ balance: number }>(`${API}/user/balance`).subscribe({
-      next: ({ balance }) => this.balance.set(balance),
+    this.http.get<{ balance: number; total_deposited: number }>(`${API}/user/balance`).subscribe({
+      next: ({ balance, total_deposited }) => {
+        this.balance.set(balance);
+        this.totalDeposited.set(total_deposited ?? 0);
+      },
     });
   }
 
@@ -206,6 +218,7 @@ export class BetService {
         this.balance.update(b => b - total);
         this.betItems.set([]);
         this.parlayStake.set(0);
+        this.betMode.set('single');
         newBets.forEach(bet => this.scheduleSettle(bet));
       },
     });
@@ -239,6 +252,7 @@ export class BetService {
   clearBets(): void {
     this.betItems.set([]);
     this.parlayStake.set(0);
+    this.betMode.set('single');
   }
 
   isSelected(matchId: string, selection: BetSelection): boolean {
