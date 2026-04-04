@@ -104,40 +104,23 @@
   margin-left: auto;
 }
 
-/* 語言切換 */
-.lang-switcher {
-  display: flex;
-  align-items: center;
+/* 語言下拉選單 */
+.lang-select {
+  background: var(--bg-secondary);
   border: 1px solid var(--border);
   border-radius: 8px;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-.lang-switcher span {
-  padding: 6px 10px;
+  color: #8b949e;
   font-size: 12px;
   font-weight: 600;
-  color: #8b949e;
+  padding: 5px 8px;
   cursor: pointer;
-  border-right: 1px solid var(--border);
-  transition: background 0.2s, color 0.2s;
-  line-height: 1;
+  outline: none;
+  flex-shrink: 0;
+  transition: border-color 0.2s;
 }
 
-.lang-switcher span:last-child {
-  border-right: none;
-}
-
-.lang-switcher span:hover {
-  background: var(--bg-secondary);
-  color: #e6edf3;
-}
-
-.lang-switcher span.lang-active {
-  background: var(--bg-secondary);
-  color: #e6edf3;
-  font-weight: 700;
+.lang-select:hover {
+  border-color: var(--border-hover);
 }
 
 /* 主題切換按鈕 */
@@ -424,34 +407,17 @@
   cursor: pointer;
 }
 
-.mobile-lang-switcher {
-  display: flex;
+.mobile-lang-select {
   margin: 4px 24px;
+  background: #1c2128;
   border: 1px solid #30363d;
   border-radius: 6px;
-  overflow: hidden;
-}
-
-.mobile-lang-switcher span {
-  flex: 1;
-  padding: 10px 0;
-  text-align: center;
-  font-size: 13px;
-  font-weight: 500;
-  color: #8b949e;
-  cursor: pointer;
-  border-right: 1px solid #30363d;
-  transition: background 0.2s, color 0.2s;
-}
-
-.mobile-lang-switcher span:last-child {
-  border-right: none;
-}
-
-.mobile-lang-switcher span.lang-active {
-  background: #1c2128;
   color: #e6edf3;
-  font-weight: 700;
+  font-size: 14px;
+  padding: 10px 12px;
+  cursor: pointer;
+  outline: none;
+  width: calc(100% - 48px);
 }
 
 .mobile-theme-toggle {

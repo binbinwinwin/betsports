@@ -44,11 +44,6 @@
         <div class="footer-copyright">{{ 'footer.copyright' | t: { year: year } }}</div>
         <div class="footer-disclaimer">{{ 'footer.disclaimer' | t }}</div>
       </div>
-      <div class="footer-lang">
-        <span [class.lang-active]="ts.lang() === 'zh-TW'" (click)="setLang('zh-TW')">繁體中文</span>
-        <span [class.lang-active]="ts.lang() === 'en'" (click)="setLang('en')">English</span>
-        <span [class.lang-active]="ts.lang() === 'ja'" (click)="setLang('ja')">日本語</span>
-      </div>
     </div>
 
   </div>
