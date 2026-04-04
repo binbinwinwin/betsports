@@ -9,7 +9,7 @@ export interface User {
   display_name: string;
 }
 
-export const API = 'http://localhost:8000';
+export const API = 'https://betsports.onrender.com';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
