@@ -109,6 +109,22 @@ html, body {
   color: #1f2328 !important;
 }
 
+/* 手機版投注單面板 */
+[data-theme="light"] .bet-slip-wrap {
+  background: #ffffff !important;
+  border-top-color: #f0b429 !important;
+}
+
+[data-theme="light"] .mobile-slip-header {
+  background: #ffffff !important;
+  border-bottom-color: #d0d7de !important;
+}
+
+[data-theme="light"] .mobile-slip-close {
+  border-color: #d0d7de !important;
+  color: #57606a !important;
+}
+
 [data-theme="light"] .mobile-nav-link {
   color: #1f2328 !important;
   border-bottom-color: #d0d7de !important;
