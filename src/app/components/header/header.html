@@ -72,6 +72,10 @@
       <a routerLink="/profile" class="mobile-nav-link" (click)="closeMenu()">{{ 'nav.profile' | t }}</a>
       <button class="mobile-logout-btn" (click)="logout()">{{ 'nav.logout' | t }}</button>
     }
+    <!-- 主題切換 -->
+    <button class="mobile-theme-toggle" (click)="themeService.toggle(); closeMenu()">
+      {{ themeService.theme() === 'dark' ? '☀️ 切換淺色模式' : '🌙 切換深色模式' }}
+    </button>
   </div>
   <div class="menu-overlay" (click)="closeMenu()"></div>
 }

@@ -232,8 +232,8 @@
   background: #3fb950;
 }
 
-/* 手機版 */
-@media (max-width: 600px) {
+/* 手機/平板（投注單 FAB 出現的範圍，聊天移到左側避免重疊） */
+@media (max-width: 900px) {
   .chat-fab {
     bottom: 24px;
     right: auto;

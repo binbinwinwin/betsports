@@ -104,6 +104,11 @@ html, body {
   border-color: var(--border) !important;
 }
 
+[data-theme="light"] .mobile-theme-toggle {
+  border-color: #d0d7de !important;
+  color: #1f2328 !important;
+}
+
 /* Light theme 全域文字覆蓋 */
 [data-theme="light"] * {
   color: inherit;
