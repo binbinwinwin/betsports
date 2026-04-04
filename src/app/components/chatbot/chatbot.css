@@ -234,14 +234,15 @@
 
 /* 手機版 */
 @media (max-width: 600px) {
+  .chat-fab {
+    bottom: 24px;
+    right: auto;
+    left: 20px;
+  }
   .chat-window {
-    right: 8px;
     left: 8px;
+    right: 8px;
     width: auto;
     bottom: 90px;
-  }
-  .chat-fab {
-    bottom: 20px;
-    right: 20px;
   }
 }

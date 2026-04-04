@@ -149,6 +149,17 @@
 }
 
 /* 手機版 */
+@media (max-width: 600px) {
+  .tabs-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  .tab-btn {
+    justify-content: center;
+  }
+}
+
 @media (max-width: 900px) {
   .bet-slip-wrap {
     position: fixed;
