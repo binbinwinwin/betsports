@@ -21,6 +21,30 @@
   --accent-blue: #58a6ff;
 }
 
+[data-theme="light"] {
+  --bg-main: #f6f8fa;
+  --bg-card: #ffffff;
+  --bg-secondary: #eaeef2;
+  --border: #d0d7de;
+  --border-hover: #adbac7;
+  --text-primary: #1f2328;
+  --text-secondary: #656d76;
+  --text-muted: #8c959f;
+}
+
+/* Skeleton Loading */
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-secondary) 25%, var(--border) 50%, var(--bg-secondary) 75%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.4s infinite;
+  border-radius: 6px;
+}
+
+@keyframes skeletonShimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 html, body {
   height: 100%;
   background-color: var(--bg-main);
@@ -50,6 +74,34 @@ html, body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--border-hover);
+}
+
+/* Light theme 全域覆蓋 */
+[data-theme="light"] body,
+[data-theme="light"] html {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+}
+
+[data-theme="light"] .site-header {
+  background: #ffffff !important;
+  border-bottom-color: var(--border) !important;
+}
+
+[data-theme="light"] .nav-link,
+[data-theme="light"] .logo-text,
+[data-theme="light"] .logo-sub,
+[data-theme="light"] .balance-label {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="light"] .balance-amount {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="light"] .mobile-menu {
+  background: #ffffff !important;
+  border-color: var(--border) !important;
 }
 
 /* 按鈕基礎重置 */

@@ -36,6 +36,11 @@
           <span class="balance-amount">NT$ {{ formatBalance(balance) }}</span>
         </div>
       }
+      <!-- 主題切換 -->
+      <button class="theme-toggle" (click)="themeService.toggle()" [title]="themeService.theme() === 'dark' ? '切換淺色' : '切換深色'">
+        {{ themeService.theme() === 'dark' ? '☀️' : '🌙' }}
+      </button>
+
       @if (currentUser()) {
         <div class="user-area">
           <a routerLink="/profile" class="profile-link" [title]="'nav.profile' | t">

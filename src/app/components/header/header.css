@@ -104,6 +104,22 @@
   margin-left: auto;
 }
 
+/* 主題切換按鈕 */
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 5px 9px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  flex-shrink: 0;
+}
+.theme-toggle:hover {
+  background: var(--bg-secondary);
+  border-color: var(--border-hover);
+}
+
 /* 待投注計數 */
 .bet-count-badge {
   display: flex;

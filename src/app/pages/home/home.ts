@@ -28,6 +28,7 @@ export class Home {
   auth = inject(AuthService);
   private betService = inject(BetService);
   ts = inject(TranslationService);
+  loading = this.sportsService.loading;
 
   mobileSlipOpen = signal(false);
   isMobile = signal(window.innerWidth <= 900);

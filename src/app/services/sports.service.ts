@@ -14,6 +14,7 @@ export class SportsService implements OnDestroy {
   private destroy$ = new Subject<void>();
   private oddsChangeSubject = new Subject<OddsChangeEvent>();
   oddsChange$ = this.oddsChangeSubject.asObservable();
+  loading = signal(true);
 
   matches = signal<Match[]>([
     // 足球
@@ -176,6 +177,7 @@ export class SportsService implements OnDestroy {
   private subscription: Subscription;
 
   constructor() {
+    setTimeout(() => this.loading.set(false), 1200);
     this.subscription = interval(3000)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.randomUpdateOdds());

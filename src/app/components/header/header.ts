@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { BetService } from '../../services/bet.service';
 import { AuthService } from '../../services/auth.service';
 import { TranslationService } from '../../services/translation.service';
+import { ThemeService } from '../../services/theme.service';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { PlacedBet } from '../../models/match.model';
 
@@ -25,6 +26,7 @@ export class Header implements OnInit, OnDestroy {
   private betService = inject(BetService);
   private authService = inject(AuthService);
   ts = inject(TranslationService);
+  themeService = inject(ThemeService);
   private sub!: Subscription;
 
   currentUser = this.authService.currentUser;
