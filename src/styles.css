@@ -201,6 +201,93 @@ html, body {
   color: #374151 !important;
 }
 
+/* 聊天機器人快速問題 */
+[data-theme="light"] .quick-questions {
+  background: #f0f4ff !important;
+}
+[data-theme="light"] .quick-btn {
+  background: #ffffff !important;
+  border-color: #c8d3dc !important;
+  color: #1d4ed8 !important;
+}
+[data-theme="light"] .quick-btn:hover {
+  background: #eff6ff !important;
+  border-color: #3b82f6 !important;
+}
+
+/* 最新消息 */
+[data-theme="light"] .news-page {
+  background: var(--bg-main) !important;
+}
+[data-theme="light"] .news-title,
+[data-theme="light"] .hot-title,
+[data-theme="light"] .article-title {
+  color: #1f2328 !important;
+}
+[data-theme="light"] .news-subtitle,
+[data-theme="light"] .hot-summary,
+[data-theme="light"] .article-summary {
+  color: #374151 !important;
+}
+[data-theme="light"] .hot-card,
+[data-theme="light"] .article-card {
+  background: #ffffff !important;
+  border-color: #d0d7de !important;
+}
+[data-theme="light"] .hot-image,
+[data-theme="light"] .article-image {
+  background: #eaeef2 !important;
+}
+[data-theme="light"] .hot-body,
+[data-theme="light"] .article-body {
+  background: #ffffff !important;
+}
+[data-theme="light"] .article-meta,
+[data-theme="light"] .read-more {
+  color: #374151 !important;
+}
+
+/* 投注紀錄 */
+[data-theme="light"] .history-page {
+  background: var(--bg-main) !important;
+}
+[data-theme="light"] .bet-card {
+  background: #ffffff !important;
+  border-color: #d0d7de !important;
+}
+[data-theme="light"] .bet-time,
+[data-theme="light"] .bet-match,
+[data-theme="light"] .bet-detail,
+[data-theme="light"] .summary-chip {
+  color: #374151 !important;
+}
+[data-theme="light"] .page-title {
+  color: #1f2328 !important;
+}
+[data-theme="light"] .bet-card-header {
+  border-color: #d0d7de !important;
+}
+
+/* 出入金 */
+[data-theme="light"] .profile-card {
+  background: #ffffff !important;
+  border-color: #d0d7de !important;
+}
+[data-theme="light"] .profile-title,
+[data-theme="light"] .user-username {
+  color: #1f2328 !important;
+}
+[data-theme="light"] .form-input {
+  background: #f6f8fa !important;
+  border-color: #d0d7de !important;
+  color: #1f2328 !important;
+}
+[data-theme="light"] .quick-amounts .quick-btn {
+  background: #f6f8fa !important;
+  border-color: #d0d7de !important;
+  color: #374151 !important;
+}
+
 /* 登入/註冊頁背景 */
 [data-theme="light"] .login-page,
 [data-theme="light"] .register-page {
@@ -214,9 +301,14 @@ html, body {
   box-shadow: 0 4px 24px rgba(0,0,0,0.08) !important;
 }
 
+[data-theme="light"] .login-logo,
+[data-theme="light"] .register-logo {
+  color: #1d4ed8 !important;
+}
+
 [data-theme="light"] .login-title,
 [data-theme="light"] .register-title {
-  color: #1f2328 !important;
+  color: #374151 !important;
 }
 
 [data-theme="light"] .login-form input,
