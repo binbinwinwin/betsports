@@ -4,6 +4,9 @@ load_dotenv()
 from groq import Groq
 from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.requests import Request as StarletteRequest
+from starlette.responses import Response as StarletteResponse
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel
 from passlib.context import CryptContext
@@ -180,14 +183,20 @@ def bet_to_response(bet: BetRecord) -> BetRecordResponse:
 # ── App ──────────────────────────────────────────────
 app = FastAPI(title="BetSports API")
 
-_raw_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:4200")
-_origins = ["*"] if _raw_origins == "*" else _raw_origins.split(",")
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=_origins,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+class AllowAllCORS(BaseHTTPMiddleware):
+    async def dispatch(self, request: StarletteRequest, call_next):
+        if request.method == "OPTIONS":
+            response = StarletteResponse()
+            response.headers["Access-Control-Allow-Origin"] = "*"
+            response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
+            response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept"
+            return response
+        response = await call_next(request)
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept"
+        return response
+
+app.add_middleware(AllowAllCORS)
 
 # ── Auth 路由 ─────────────────────────────────────────
 @app.post("/auth/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
