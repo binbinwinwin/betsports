@@ -195,6 +195,53 @@ html, body {
   color: var(--text-primary) !important;
 }
 
+/* Navbar 淺色背景加陰影區分 */
+[data-theme="light"] .site-header {
+  background: #1d4ed8 !important;
+  border-bottom-color: #1e40af !important;
+}
+
+[data-theme="light"] .nav-link,
+[data-theme="light"] .logo-text,
+[data-theme="light"] .logo-sub,
+[data-theme="light"] .balance-label,
+[data-theme="light"] .balance-amount,
+[data-theme="light"] .logout-btn,
+[data-theme="light"] .bet-count-badge {
+  color: #fff !important;
+}
+
+[data-theme="light"] .nav-link.active,
+[data-theme="light"] .nav-link:hover {
+  color: #bfdbfe !important;
+}
+
+/* 賠率按鈕淺色 */
+[data-theme="light"] .odds-btn {
+  background: #e8edf2 !important;
+  border-color: #c8d3dc !important;
+  color: #1f2328 !important;
+}
+
+[data-theme="light"] .odds-btn:hover {
+  border-color: #f0b429 !important;
+  background: #fef9e7 !important;
+}
+
+[data-theme="light"] .odds-btn.selected {
+  background: #fef3c7 !important;
+  border-color: #f0b429 !important;
+  color: #92400e !important;
+}
+
+[data-theme="light"] .odds-label {
+  color: #656d76 !important;
+}
+
+[data-theme="light"] .odds-value {
+  color: #1f2328 !important;
+}
+
 /* 按鈕基礎重置 */
 button {
   font-family: inherit;
