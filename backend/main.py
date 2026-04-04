@@ -180,12 +180,13 @@ def bet_to_response(bet: BetRecord) -> BetRecordResponse:
 # ── App ──────────────────────────────────────────────
 app = FastAPI(title="BetSports API")
 
-_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:4200").split(",")
+_raw_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:4200")
+_origins = ["*"] if _raw_origins == "*" else _raw_origins.split(",")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=_origins,
     allow_methods=["*"],
-    allow_headers=["Authorization", "Content-Type", "Accept"],
+    allow_headers=["*"],
 )
 
 # ── Auth 路由 ─────────────────────────────────────────
