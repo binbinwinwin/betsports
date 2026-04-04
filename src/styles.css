@@ -195,6 +195,81 @@ html, body {
   color: var(--text-primary) !important;
 }
 
+/* 投注單 */
+[data-theme="light"] .bet-slip {
+  background: #ffffff !important;
+  border-color: var(--border) !important;
+}
+
+[data-theme="light"] .slip-header {
+  background: #eaeef2 !important;
+  border-color: var(--border) !important;
+}
+
+[data-theme="light"] .slip-title {
+  color: #b07d00 !important;
+}
+
+[data-theme="light"] .clear-btn {
+  border-color: var(--border) !important;
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="light"] .mode-tabs {
+  background: #eaeef2 !important;
+  border-color: var(--border) !important;
+}
+
+[data-theme="light"] .mode-tab {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="light"] .mode-tab.active {
+  color: #b07d00 !important;
+}
+
+[data-theme="light"] .bet-item {
+  background: #f6f8fa !important;
+  border-color: var(--border) !important;
+}
+
+[data-theme="light"] .bet-match,
+[data-theme="light"] .bet-selection,
+[data-theme="light"] .summary-row,
+[data-theme="light"] .balance-row {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="light"] .stake-input-wrap {
+  background: #ffffff !important;
+  border-color: var(--border) !important;
+}
+
+[data-theme="light"] .stake-input {
+  background: transparent !important;
+  color: var(--text-primary) !important;
+}
+
+[data-theme="light"] .currency {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="light"] .empty-state {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="light"] .count-empty,
+[data-theme="light"] .empty-hint-inline {
+  color: var(--text-muted) !important;
+}
+
+[data-theme="light"] .parlay-header,
+[data-theme="light"] .parlay-leg {
+  background: #f6f8fa !important;
+  border-color: var(--border) !important;
+  color: var(--text-primary) !important;
+}
+
 /* Navbar 淺色背景加陰影區分 */
 [data-theme="light"] .site-header {
   background: #1d4ed8 !important;
@@ -206,14 +281,30 @@ html, body {
 [data-theme="light"] .logo-sub,
 [data-theme="light"] .balance-label,
 [data-theme="light"] .balance-amount,
-[data-theme="light"] .logout-btn,
-[data-theme="light"] .bet-count-badge {
+[data-theme="light"] .logout-btn {
   color: #fff !important;
+}
+
+[data-theme="light"] .bet-count-badge {
+  color: #0d1117 !important;
 }
 
 [data-theme="light"] .nav-link.active,
 [data-theme="light"] .nav-link:hover {
   color: #bfdbfe !important;
+}
+
+/* 入金/出金保留原色 */
+[data-theme="light"] .nav-link-deposit,
+[data-theme="light"] .nav-link-deposit:hover,
+[data-theme="light"] .nav-link-deposit.active {
+  color: #6ee7b7 !important;
+}
+
+[data-theme="light"] .nav-link-withdraw,
+[data-theme="light"] .nav-link-withdraw:hover,
+[data-theme="light"] .nav-link-withdraw.active {
+  color: #fca5a5 !important;
 }
 
 /* 賠率按鈕淺色 */
