@@ -1,0 +1,53 @@
+<!-- FAB 按鈕 -->
+<button class="chat-fab" (click)="toggle()" [class.open]="open()">
+  @if (open()) { ✕ } @else { 💬 }
+</button>
+
+<!-- 聊天視窗 -->
+@if (open()) {
+  <div class="chat-window">
+    <div class="chat-header">
+      <div class="chat-header-info">
+        <span class="chat-avatar">🤖</span>
+        <div>
+          <div class="chat-name">{{ 'chat.title' | t }}</div>
+          <div class="chat-status">{{ 'chat.online' | t }}</div>
+        </div>
+      </div>
+      <button class="chat-close" (click)="close()">✕</button>
+    </div>
+
+    <div class="chat-messages" #messageList>
+      @for (msg of messages(); track $index) {
+        <div class="chat-msg" [class.bot]="msg.role === 'bot'" [class.user]="msg.role === 'user'">
+          @if (msg.role === 'bot') {
+            <span class="msg-avatar">🤖</span>
+          }
+          <div class="msg-bubble">{{ msg.text }}</div>
+        </div>
+      }
+    </div>
+
+    <!-- 快速問題 -->
+    @if (messages().length <= 1) {
+      <div class="quick-questions">
+        @for (q of quickQuestions; track q.labelKey) {
+          <button class="quick-btn" (click)="quickAsk(q.labelKey, q.answerKey)">
+            {{ q.labelKey | t }}
+          </button>
+        }
+      </div>
+    }
+
+    <div class="chat-input-row">
+      <input
+        class="chat-input"
+        type="text"
+        [(ngModel)]="inputText"
+        [placeholder]="'chat.placeholder' | t"
+        (keydown.enter)="send()"
+      />
+      <button class="chat-send" (click)="send()">{{ 'chat.send' | t }}</button>
+    </div>
+  </div>
+}
