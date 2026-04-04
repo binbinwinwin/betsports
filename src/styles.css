@@ -195,6 +195,47 @@ html, body {
   color: var(--text-primary) !important;
 }
 
+/* 比賽聯盟名稱 & 時間 */
+[data-theme="light"] .league-name,
+[data-theme="light"] .upcoming-time {
+  color: #374151 !important;
+}
+
+/* 登入/註冊頁背景 */
+[data-theme="light"] .login-page,
+[data-theme="light"] .register-page {
+  background: #f0f4ff !important;
+}
+
+[data-theme="light"] .login-card,
+[data-theme="light"] .register-card {
+  background: #ffffff !important;
+  border: 1px solid #d0d7de !important;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08) !important;
+}
+
+[data-theme="light"] .login-title,
+[data-theme="light"] .register-title {
+  color: #1f2328 !important;
+}
+
+[data-theme="light"] .login-form input,
+[data-theme="light"] .register-form input {
+  background: #f6f8fa !important;
+  border-color: #d0d7de !important;
+  color: #1f2328 !important;
+}
+
+[data-theme="light"] .login-form input::placeholder,
+[data-theme="light"] .register-form input::placeholder {
+  color: #8c959f !important;
+}
+
+[data-theme="light"] .login-form label,
+[data-theme="light"] .register-form label {
+  color: #374151 !important;
+}
+
 /* Footer */
 [data-theme="light"] .site-footer {
   background: #1d4ed8 !important;
