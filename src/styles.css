@@ -195,6 +195,53 @@ html, body {
   color: var(--text-primary) !important;
 }
 
+/* Footer */
+[data-theme="light"] .site-footer {
+  background: #1d4ed8 !important;
+  border-top-color: #1e40af !important;
+}
+
+[data-theme="light"] .footer-logo {
+  color: #fef08a !important;
+}
+
+[data-theme="light"] .footer-desc,
+[data-theme="light"] .footer-col ul li,
+[data-theme="light"] .contact-item,
+[data-theme="light"] .footer-copyright,
+[data-theme="light"] .footer-disclaimer {
+  color: #bfdbfe !important;
+}
+
+[data-theme="light"] .footer-col-title {
+  color: #ffffff !important;
+}
+
+[data-theme="light"] .footer-divider {
+  border-color: #1e40af !important;
+}
+
+[data-theme="light"] .badge {
+  background: #1e40af !important;
+  border-color: #3b82f6 !important;
+  color: #bfdbfe !important;
+}
+
+[data-theme="light"] .footer-lang {
+  border-color: #3b82f6 !important;
+  color: #bfdbfe !important;
+}
+
+[data-theme="light"] .footer-lang span {
+  border-color: #3b82f6 !important;
+  color: #bfdbfe !important;
+}
+
+[data-theme="light"] .lang-active {
+  background: #1e40af !important;
+  color: #ffffff !important;
+}
+
 /* 投注單 */
 [data-theme="light"] .bet-slip {
   background: #ffffff !important;
@@ -251,6 +298,22 @@ html, body {
 }
 
 [data-theme="light"] .currency {
+  background: #e2e8f0 !important;
+  color: var(--text-primary) !important;
+}
+
+[data-theme="light"] .leg-match,
+[data-theme="light"] .leg-selection,
+[data-theme="light"] .leg-odds {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="light"] .parlay-title,
+[data-theme="light"] .parlay-combined-odds {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="light"] .selection-label {
   color: var(--text-secondary) !important;
 }
 
