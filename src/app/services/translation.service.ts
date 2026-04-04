@@ -516,10 +516,11 @@ const TRANSLATIONS: Record<Lang, Record<string, string>> = {
 
 @Injectable({ providedIn: 'root' })
 export class TranslationService {
-  lang = signal<Lang>('zh-TW');
+  lang = signal<Lang>((localStorage.getItem('lang') as Lang) || 'zh-TW');
 
   setLang(lang: Lang): void {
     this.lang.set(lang);
+    localStorage.setItem('lang', lang);
   }
 
   t(key: string, params?: Record<string, string | number>): string {

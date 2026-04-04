@@ -130,7 +130,7 @@ html, body {
 }
 
 [data-theme="light"] h1, [data-theme="light"] h2, [data-theme="light"] h3,
-[data-theme="light"] .page-title, [data-theme="light"] .user-username,
+[data-theme="light"] .page-title,
 [data-theme="light"] .slip-title, [data-theme="light"] .section-title,
 [data-theme="light"] .match-league, [data-theme="light"] .team-name {
   color: var(--text-primary) !important;
@@ -203,7 +203,7 @@ html, body {
 
 /* 聊天機器人快速問題 */
 [data-theme="light"] .quick-questions {
-  background: #f0f4ff !important;
+  background: #ffffff !important;
 }
 [data-theme="light"] .quick-btn {
   background: #ffffff !important;
@@ -218,6 +218,37 @@ html, body {
 /* 最新消息 */
 [data-theme="light"] .news-page {
   background: var(--bg-main) !important;
+}
+
+/* 新聞詳情頁 */
+[data-theme="light"] .detail-article {
+  background: #ffffff !important;
+  border-color: #d0d7de !important;
+}
+[data-theme="light"] .detail-image {
+  background: #eaeef2 !important;
+  border-bottom-color: #d0d7de !important;
+}
+[data-theme="light"] .detail-title {
+  color: #1f2328 !important;
+}
+[data-theme="light"] .detail-lead {
+  color: #57606a !important;
+}
+[data-theme="light"] .detail-content p {
+  color: #374151 !important;
+}
+[data-theme="light"] .detail-date,
+[data-theme="light"] .detail-read,
+[data-theme="light"] .detail-footer {
+  color: #8c959f !important;
+}
+[data-theme="light"] .detail-divider,
+[data-theme="light"] .detail-footer {
+  border-color: #d0d7de !important;
+}
+[data-theme="light"] .back-link {
+  color: #57606a !important;
 }
 [data-theme="light"] .news-title,
 [data-theme="light"] .hot-title,
@@ -255,11 +286,66 @@ html, body {
   background: #ffffff !important;
   border-color: #d0d7de !important;
 }
+
+[data-theme="light"] .status-badge-won {
+  background: #39d35320 !important;
+  color: #1a7f37 !important;
+  border-color: #39d353 !important;
+}
+
+[data-theme="light"] .status-badge-lost {
+  background: #f8514920 !important;
+  color: #cf222e !important;
+  border-color: #f85149 !important;
+}
+
+[data-theme="light"] .status-badge-pending {
+  background: #8b949e20 !important;
+  color: #57606a !important;
+  border-color: #8b949e !important;
+}
+
+[data-theme="light"] .bet-card.status-won {
+  border-left-color: #39d353 !important;
+}
+
+[data-theme="light"] .bet-card.status-lost {
+  border-left-color: #f85149 !important;
+}
+[data-theme="light"] .summary-chip {
+  background: #eaeef2 !important;
+  border-color: #d0d7de !important;
+  color: #57606a !important;
+}
+
 [data-theme="light"] .bet-time,
 [data-theme="light"] .bet-match,
-[data-theme="light"] .bet-detail,
-[data-theme="light"] .summary-chip {
+[data-theme="light"] .bet-detail {
   color: #374151 !important;
+}
+
+[data-theme="light"] .bet-match-name {
+  color: #1f2328 !important;
+}
+
+[data-theme="light"] .detail-label {
+  color: #57606a !important;
+}
+
+[data-theme="light"] .detail-value {
+  color: #1f2328 !important;
+}
+
+[data-theme="light"] .detail-value.selection {
+  color: #0969da !important;
+}
+
+[data-theme="light"] .detail-value.odds {
+  color: #b07d00 !important;
+}
+
+[data-theme="light"] .detail-value.win {
+  color: #1a7f37 !important;
 }
 [data-theme="light"] .page-title {
   color: #1f2328 !important;
@@ -273,9 +359,22 @@ html, body {
   background: #ffffff !important;
   border-color: #d0d7de !important;
 }
-[data-theme="light"] .profile-title,
-[data-theme="light"] .user-username {
+[data-theme="light"] .profile-title {
   color: #1f2328 !important;
+}
+
+/* tier card 內文字保持白色（卡片背景是暗色） */
+[data-theme="light"] .tier-bg-premium .user-username,
+[data-theme="light"] .tier-bg-vip .user-username,
+[data-theme="light"] .tier-bg-diamond .user-username,
+[data-theme="light"] .user-info-section .user-username {
+  color: #ffffff !important;
+}
+[data-theme="light"] .tier-bg-premium .user-balance-label,
+[data-theme="light"] .tier-bg-vip .user-balance-label,
+[data-theme="light"] .tier-bg-diamond .user-balance-label,
+[data-theme="light"] .user-info-section .user-balance-label {
+  color: #cbd5e1 !important;
 }
 [data-theme="light"] .form-input {
   background: #f6f8fa !important;
@@ -289,16 +388,22 @@ html, body {
 }
 
 /* 登入/註冊頁背景 */
-[data-theme="light"] .login-page,
-[data-theme="light"] .register-page {
-  background: #f0f4ff !important;
+[data-theme="light"] .login-page {
+  background: var(--bg-main) !important;
 }
 
-[data-theme="light"] .login-card,
-[data-theme="light"] .register-card {
-  background: #ffffff !important;
-  border: 1px solid #d0d7de !important;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.08) !important;
+/* 登入卡片：藍色系 */
+[data-theme="light"] .login-page:not(.register-variant) .login-card {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%) !important;
+  border: 1px solid #bfdbfe !important;
+  box-shadow: 0 4px 24px rgba(29,78,216,0.10) !important;
+}
+
+/* 註冊卡片：紫色系 */
+[data-theme="light"] .register-variant .login-card {
+  background: linear-gradient(135deg, #fdf4ff 0%, #ede9fe 100%) !important;
+  border: 1px solid #ddd6fe !important;
+  box-shadow: 0 4px 24px rgba(124,58,237,0.10) !important;
 }
 
 [data-theme="light"] .login-logo,
@@ -312,20 +417,42 @@ html, body {
 }
 
 [data-theme="light"] .login-form input,
-[data-theme="light"] .register-form input {
-  background: #f6f8fa !important;
+[data-theme="light"] .register-form input,
+[data-theme="light"] .form-input {
+  background: #ffffff !important;
   border-color: #d0d7de !important;
   color: #1f2328 !important;
 }
 
 [data-theme="light"] .login-form input::placeholder,
-[data-theme="light"] .register-form input::placeholder {
+[data-theme="light"] .register-form input::placeholder,
+[data-theme="light"] .form-input::placeholder {
   color: #8c959f !important;
 }
 
+[data-theme="light"] .login-form input:focus,
+[data-theme="light"] .form-input:focus {
+  border-color: #1d4ed8 !important;
+  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15) !important;
+}
+
 [data-theme="light"] .login-form label,
-[data-theme="light"] .register-form label {
+[data-theme="light"] .register-form label,
+[data-theme="light"] .form-label {
   color: #374151 !important;
+}
+
+[data-theme="light"] .login-btn {
+  background: linear-gradient(135deg, #1d4ed8, #3b82f6) !important;
+  box-shadow: 0 4px 16px rgba(29, 78, 216, 0.3) !important;
+}
+
+[data-theme="light"] .switch-link {
+  color: #6b7280 !important;
+}
+
+[data-theme="light"] .switch-link a {
+  color: #1d4ed8 !important;
 }
 
 /* Footer */
@@ -335,7 +462,7 @@ html, body {
 }
 
 [data-theme="light"] .footer-logo {
-  color: #fef08a !important;
+  color: #ffffff !important;
 }
 
 [data-theme="light"] .footer-desc,
@@ -417,7 +544,19 @@ html, body {
 [data-theme="light"] .bet-selection,
 [data-theme="light"] .summary-row,
 [data-theme="light"] .balance-row {
-  color: var(--text-primary) !important;
+  color: #57606a !important;
+}
+
+[data-theme="light"] .summary-value {
+  color: #1f2328 !important;
+}
+
+[data-theme="light"] .summary-value.highlight {
+  color: #b07d00 !important;
+}
+
+[data-theme="light"] .balance-row span:last-child {
+  color: #1f2328 !important;
 }
 
 [data-theme="light"] .stake-input-wrap {
@@ -460,10 +599,23 @@ html, body {
 }
 
 [data-theme="light"] .parlay-header,
-[data-theme="light"] .parlay-leg {
+[data-theme="light"] .parlay-leg,
+[data-theme="light"] .parlay-legs {
   background: #f6f8fa !important;
   border-color: var(--border) !important;
   color: var(--text-primary) !important;
+}
+
+[data-theme="light"] .leg-name {
+  color: #57606a !important;
+}
+
+[data-theme="light"] .leg-sel {
+  color: #0969da !important;
+}
+
+[data-theme="light"] .leg-odds {
+  color: #b07d00 !important;
 }
 
 /* Navbar 淺色背景加陰影區分 */
