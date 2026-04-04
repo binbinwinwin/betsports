@@ -5,7 +5,7 @@ import { AuthService } from '../services/auth.service';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const token = inject(AuthService).getToken();
 
-  if (token && req.url.includes('localhost:8000')) {
+  if (token && (req.url.includes('localhost:8000') || req.url.includes('onrender.com'))) {
     return next(req.clone({
       setHeaders: { Authorization: `Bearer ${token}` },
     }));
