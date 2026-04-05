@@ -1,4 +1,4 @@
-import { Component, inject, AfterViewInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { Component, inject, AfterViewInit, OnDestroy, ElementRef, ViewChild, effect } from '@angular/core';
 import { BetService } from '../../services/bet.service';
 import { PlacedBet } from '../../models/match.model';
 import { RouterLink } from '@angular/router';
@@ -25,6 +25,14 @@ export class History implements AfterViewInit, OnDestroy {
   private betService = inject(BetService);
   private http = inject(HttpClient);
   ts = inject(TranslationService);
+
+  constructor() {
+    effect(() => {
+      // 每當 placedBets 有變動（包含結果出爐）就重建圖表
+      this.betService.placedBets();
+      if (this.lineCanvas) this.buildCharts();
+    });
+  }
 
   private lineChart?: Chart;
   private pieChart?:  Chart;
