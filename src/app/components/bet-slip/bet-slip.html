@@ -51,8 +51,10 @@
             <span class="currency">NT$</span>
             <input type="number" class="stake-input" [value]="item.stake || ''" placeholder="最低 NT$ 100" min="100" (input)="updateStake(item, $event)" />
           </div>
-          @if (item.stake > 0) {
+          @if (item.stake >= 100) {
             <div class="potential-win">{{ 'slip.potentialWin' | t: { n: formatNumber(potentialWin(item)) } }}</div>
+          } @else if (item.stake > 0) {
+            <div class="min-stake-warn">⚠️ 最低投注 NT$ 100</div>
           } @else {
             <div class="empty-hint-inline">{{ 'slip.notFilled' | t }}</div>
           }

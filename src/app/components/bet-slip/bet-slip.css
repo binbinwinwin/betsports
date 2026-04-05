@@ -340,6 +340,12 @@
   text-align: right;
 }
 
+.min-stake-warn {
+  font-size: 11px;
+  color: #f85149;
+  text-align: right;
+}
+
 .empty-hint-inline {
   font-size: 11px;
   color: #6e7681;
