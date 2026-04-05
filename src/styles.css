@@ -337,6 +337,11 @@ html, body {
 [data-theme="light"] .chart-title {
   color: #1f2328 !important;
 }
+
+[data-theme="light"] .clear-btn {
+  border-color: #cf222e !important;
+  color: #cf222e !important;
+}
 [data-theme="light"] .bet-card {
   background: #ffffff !important;
   border-color: #d0d7de !important;

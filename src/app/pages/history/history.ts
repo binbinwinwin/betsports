@@ -1,9 +1,11 @@
-import { Component, inject, AfterViewInit, OnDestroy, ElementRef, ViewChild, effect } from '@angular/core';
+import { Component, inject, AfterViewInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { BetService } from '../../services/bet.service';
 import { PlacedBet } from '../../models/match.model';
 import { RouterLink } from '@angular/router';
 import { TranslationService } from '../../services/translation.service';
 import { TranslatePipe } from '../../pipes/translate.pipe';
+import { HttpClient } from '@angular/common/http';
+import { API } from '../../services/auth.service';
 import { Chart, registerables } from 'chart.js';
 
 Chart.register(...registerables);
@@ -21,6 +23,7 @@ export class History implements AfterViewInit, OnDestroy {
   @ViewChild('barCanvas')  barCanvas!:  ElementRef<HTMLCanvasElement>;
 
   private betService = inject(BetService);
+  private http = inject(HttpClient);
   ts = inject(TranslationService);
 
   private lineChart?: Chart;
@@ -52,6 +55,16 @@ export class History implements AfterViewInit, OnDestroy {
 
   totalStake(): number {
     return this.placedBets.reduce((s, b) => s + b.stake, 0);
+  }
+
+  clearHistory(): void {
+    if (!confirm('確定要清除所有投注紀錄嗎？')) return;
+    this.http.delete(`${API}/bets/clear`).subscribe({
+      next: () => {
+        this.betService.placedBets.set([]);
+        this.destroyCharts();
+      },
+    });
   }
 
   private isDark(): boolean {

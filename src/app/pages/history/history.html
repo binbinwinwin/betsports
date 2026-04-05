@@ -5,6 +5,7 @@
       <div class="summary-chip">
         {{ 'history.summary' | t: { count: placedBets.length, total: formatNumber(totalStake()) } }}
       </div>
+      <button class="clear-btn" (click)="clearHistory()">🗑 清除紀錄</button>
     }
   </div>
 

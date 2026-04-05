@@ -308,6 +308,14 @@ def settle_bet(
         user.balance += bet.potential_win
     db.commit()
 
+@app.delete("/bets/clear", status_code=status.HTTP_204_NO_CONTENT)
+def clear_bets(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    db.query(BetRecord).filter(BetRecord.user_id == current_user.id).delete()
+    db.commit()
+
 # ── 出入金路由 ────────────────────────────────────────
 CHAT_SYSTEM = {
     'zh-TW': """你是 BetSports 的專業客服助理。BetSports 是一個合法的線上運動投注平台，提供足球、籃球、棒球、網球、電競等多項賽事的即時投注服務。

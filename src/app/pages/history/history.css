@@ -20,6 +20,22 @@
   margin: 0;
 }
 
+.clear-btn {
+  margin-left: auto;
+  background: transparent;
+  border: 1px solid #f85149;
+  color: #f85149;
+  border-radius: 6px;
+  padding: 4px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.clear-btn:hover {
+  background: rgba(248,81,73,0.1);
+}
+
 .summary-chip {
   background: #1c2128;
   border: 1px solid #30363d;
