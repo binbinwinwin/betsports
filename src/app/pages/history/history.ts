@@ -178,7 +178,7 @@ export class History implements AfterViewInit, OnDestroy {
     };
     const sportLabels: Record<string, string> = {
       football: '⚽ 足球', basketball: '🏀 籃球',
-      baseball: '⚾ 棒球', tennis: '🎾 網球', esports: '🎮 電競', other: '🎲 其他',
+      baseball: '⚾ 棒球', tennis: '🎾 網球', esports: '🎮 電競', other: '🎲 其他(串關)',
     };
 
     this.placedBets.forEach(b => {
