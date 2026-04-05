@@ -161,7 +161,7 @@
 /* ── RWD ── */
 @media (max-width: 600px) {
   .site-footer {
-    margin-top: 24px;
+    margin-top: 0;
   }
 }
 
