@@ -93,8 +93,10 @@
           <span class="currency">NT$</span>
           <input type="number" class="stake-input" [value]="parlayStake || ''" placeholder="最低 NT$ 100" min="100" (input)="updateParlayStake($event)" />
         </div>
-        @if (parlayStake > 0) {
+        @if (parlayStake >= 100) {
           <div class="potential-win">{{ 'slip.potentialWin' | t: { n: formatNumber(totalPotentialWin) } }}</div>
+        } @else if (parlayStake > 0) {
+          <div class="min-stake-warn">⚠️ 最低投注 NT$ 100</div>
         }
       </div>
     }
