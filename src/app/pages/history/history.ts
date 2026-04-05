@@ -1,4 +1,4 @@
-import { Component, inject, AfterViewInit, OnDestroy, ElementRef, ViewChild, effect } from '@angular/core';
+import { Component, inject, AfterViewInit, OnDestroy, ElementRef, ViewChild, effect, signal } from '@angular/core';
 import { BetService } from '../../services/bet.service';
 import { PlacedBet } from '../../models/match.model';
 import { RouterLink } from '@angular/router';
@@ -37,6 +37,8 @@ export class History implements AfterViewInit, OnDestroy {
     });
   }
 
+  showClearModal = signal(false);
+
   private lineChart?: Chart;
   private pieChart?:  Chart;
   private barChart?:  Chart;
@@ -68,12 +70,12 @@ export class History implements AfterViewInit, OnDestroy {
     return this.placedBets.reduce((s, b) => s + b.stake, 0);
   }
 
-  clearHistory(): void {
-    if (!confirm('確定要清除所有投注紀錄嗎？')) return;
+  confirmClear(): void {
     this.http.delete(`${API}/bets/clear`).subscribe({
       next: () => {
         this.betService.placedBets.set([]);
         this.destroyCharts();
+        this.showClearModal.set(false);
       },
     });
   }

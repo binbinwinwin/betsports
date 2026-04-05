@@ -5,7 +5,7 @@
       <div class="summary-chip">
         {{ 'history.summary' | t: { count: placedBets.length, total: formatNumber(totalStake()) } }}
       </div>
-      <button class="clear-btn" (click)="clearHistory()">🗑 清除紀錄</button>
+      <button class="clear-btn" (click)="showClearModal.set(true)">🗑 清除紀錄</button>
     }
   </div>
 
@@ -104,3 +104,18 @@
     </div>
   }
 </div>
+
+<!-- 清除確認 Modal -->
+@if (showClearModal()) {
+  <div class="modal-overlay" (click)="showClearModal.set(false)">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+      <div class="modal-icon">🗑️</div>
+      <h3 class="modal-title">清除所有投注紀錄</h3>
+      <p class="modal-desc">此操作無法復原，所有紀錄與統計圖表將一併清除。</p>
+      <div class="modal-actions">
+        <button class="modal-cancel-btn" (click)="showClearModal.set(false)">取消</button>
+        <button class="modal-confirm-btn" (click)="confirmClear()">確認清除</button>
+      </div>
+    </div>
+  </div>
+}
