@@ -130,17 +130,38 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
+  min-width: 0;
 }
 
-@media (max-width: 600px) {
+.chart-card {
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* 平板（768px 以下）：改單欄，防止超出寬度 */
+@media (max-width: 768px) {
   .charts-row {
     grid-template-columns: 1fr;
   }
+  .chart-wrap-sm {
+    height: 200px;
+  }
+}
+
+/* 手機（480px 以下）：折線圖縮短高度、字縮小 */
+@media (max-width: 480px) {
   .chart-wrap {
-    height: 180px;
+    height: 160px;
   }
   .chart-wrap-sm {
     height: 180px;
+  }
+  .chart-card {
+    padding: 12px 12px;
+  }
+  .chart-title {
+    font-size: 13px;
+    margin-bottom: 10px;
   }
 }
 
