@@ -149,6 +149,17 @@ export class History implements AfterViewInit, OnDestroy {
     });
   }
 
+  private inferSport(bet: PlacedBet): string {
+    if (bet.sport) return bet.sport;
+    const id = bet.matchId.toLowerCase();
+    if (id.startsWith('bb')) return 'baseball';
+    if (id.startsWith('b'))  return 'basketball';
+    if (id.startsWith('f'))  return 'football';
+    if (id.startsWith('t'))  return 'tennis';
+    if (id.startsWith('e'))  return 'esports';
+    return 'football';
+  }
+
   private buildBar(): void {
     const sportMap: Record<string, number> = {
       football: 0, basketball: 0, baseball: 0, tennis: 0, esports: 0,
@@ -158,8 +169,9 @@ export class History implements AfterViewInit, OnDestroy {
       baseball: '⚾ 棒球', tennis: '🎾 網球', esports: '🎮 電競',
     };
     this.placedBets.forEach(b => {
-      if (b.sport && sportMap[b.sport] !== undefined) {
-        sportMap[b.sport] += b.stake;
+      const sport = this.inferSport(b);
+      if (sportMap[sport] !== undefined) {
+        sportMap[sport] += b.stake;
       }
     });
 
