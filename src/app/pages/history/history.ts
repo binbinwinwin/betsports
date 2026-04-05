@@ -232,7 +232,15 @@ export class History implements AfterViewInit, OnDestroy {
         maintainAspectRatio: false,
         plugins: { legend: { display: false } },
         scales: {
-          x: { ticks: { color: this.textColor }, grid: { color: this.gridColor } },
+          x: {
+            ticks: {
+              color: this.textColor,
+              maxRotation: 0,
+              minRotation: 0,
+              font: { size: 11 },
+            },
+            grid: { color: this.gridColor },
+          },
           y: { ticks: { color: this.textColor }, grid: { color: this.gridColor } },
         },
       },
