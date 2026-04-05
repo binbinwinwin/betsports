@@ -49,7 +49,7 @@
         <div class="stake-row">
           <div class="stake-input-wrap">
             <span class="currency">NT$</span>
-            <input type="number" class="stake-input" [value]="item.stake || ''" [placeholder]="'slip.enterStake' | t" min="0" (change)="updateStake(item, $event)" />
+            <input type="number" class="stake-input" [value]="item.stake || ''" placeholder="最低 NT$ 100" min="100" (input)="updateStake(item, $event)" />
           </div>
           @if (item.stake > 0) {
             <div class="potential-win">{{ 'slip.potentialWin' | t: { n: formatNumber(potentialWin(item)) } }}</div>
@@ -89,7 +89,7 @@
       <div class="parlay-stake-section">
         <div class="stake-input-wrap">
           <span class="currency">NT$</span>
-          <input type="number" class="stake-input" [value]="parlayStake || ''" [placeholder]="'slip.enterAmount' | t" min="0" (change)="updateParlayStake($event)" />
+          <input type="number" class="stake-input" [value]="parlayStake || ''" placeholder="最低 NT$ 100" min="100" (input)="updateParlayStake($event)" />
         </div>
         @if (parlayStake > 0) {
           <div class="potential-win">{{ 'slip.potentialWin' | t: { n: formatNumber(totalPotentialWin) } }}</div>
