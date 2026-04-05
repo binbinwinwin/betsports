@@ -184,9 +184,13 @@ export class History implements AfterViewInit, OnDestroy {
     const sportMap: Record<string, number> = {
       football: 0, basketball: 0, baseball: 0, tennis: 0, esports: 0, other: 0,
     };
-    const sportLabels: Record<string, string> = {
+    const isTablet = window.innerWidth > 480 && window.innerWidth <= 768;
+    const sportLabels: Record<string, string> = isTablet ? {
       football: '足球', basketball: '籃球',
       baseball: '棒球', tennis: '網球', esports: '電競', other: '其他(串關)',
+    } : {
+      football: '⚽ 足球', basketball: '🏀 籃球',
+      baseball: '⚾ 棒球', tennis: '🎾 網球', esports: '🎮 電競', other: '🎲 其他(串關)',
     };
 
     this.placedBets.forEach(b => {
