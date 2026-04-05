@@ -173,6 +173,7 @@ export class BetService {
         potentialWin,
         isParlay: true,
         parlayLegs: items.map(i => ({
+          matchId: i.matchId,
           matchName: i.matchName,
           selectionLabel: i.selectionLabel,
           odds: i.odds,

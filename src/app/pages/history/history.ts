@@ -149,15 +149,14 @@ export class History implements AfterViewInit, OnDestroy {
     });
   }
 
-  private inferSport(bet: PlacedBet): string {
-    if (bet.sport) return bet.sport;
-    const id = bet.matchId.toLowerCase();
+  private inferSportFromId(matchId: string): string {
+    const id = matchId.toLowerCase();
     if (id.startsWith('bb')) return 'baseball';
     if (id.startsWith('b'))  return 'basketball';
     if (id.startsWith('f'))  return 'football';
     if (id.startsWith('t'))  return 'tennis';
     if (id.startsWith('e'))  return 'esports';
-    return 'football';
+    return '';
   }
 
   private buildBar(): void {
@@ -168,10 +167,23 @@ export class History implements AfterViewInit, OnDestroy {
       football: '⚽ 足球', basketball: '🏀 籃球',
       baseball: '⚾ 棒球', tennis: '🎾 網球', esports: '🎮 電競',
     };
+
     this.placedBets.forEach(b => {
-      const sport = this.inferSport(b);
-      if (sportMap[sport] !== undefined) {
-        sportMap[sport] += b.stake;
+      if (b.isParlay && b.parlayLegs && b.parlayLegs.length > 0) {
+        // 串關：按腳數均分 stake
+        const perLeg = b.stake / b.parlayLegs.length;
+        b.parlayLegs.forEach(leg => {
+          const sport = leg.matchId ? this.inferSportFromId(leg.matchId) : '';
+          if (sport && sportMap[sport] !== undefined) {
+            sportMap[sport] += perLeg;
+          }
+        });
+      } else {
+        // 單場：直接用 sport 欄位或推算
+        const sport = b.sport || this.inferSportFromId(b.matchId);
+        if (sport && sportMap[sport] !== undefined) {
+          sportMap[sport] += b.stake;
+        }
       }
     });
 

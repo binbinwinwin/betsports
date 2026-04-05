@@ -29,6 +29,7 @@ export interface BetItem {
 }
 
 export interface ParlayLeg {
+  matchId?: string;
   matchName: string;
   selectionLabel: string;
   odds: number;
