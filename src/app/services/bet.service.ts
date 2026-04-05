@@ -231,7 +231,7 @@ export class BetService {
   }
 
   private scheduleSettle(bet: PlacedBet): void {
-    const winRate = bet.isParlay ? 0.2 : 0.4;
+    const winRate = bet.isParlay ? 0.3 : 0.45;
     const timer = setTimeout(() => {
       const result: 'won' | 'lost' = Math.random() < winRate ? 'won' : 'lost';
 
