@@ -76,6 +76,7 @@ export class BetService {
           selectionLabel: b.selectionLabel,
           odds: b.odds,
           stake: b.stake,
+          sport: b.sport,
           placedAt: new Date(b.placedAt),
           status: b.status,
           potentialWin: b.potentialWin,
@@ -118,6 +119,7 @@ export class BetService {
       selectionLabel: selectionLabels[selection],
       odds,
       stake: 0,
+      sport: match.sport,
     };
 
     this.betItems.update(items => {
@@ -207,6 +209,7 @@ export class BetService {
           selectionLabel: b.selectionLabel,
           odds: b.odds,
           stake: b.stake,
+          sport: b.sport,
           placedAt: new Date(b.placedAt),
           status: b.status,
           potentialWin: b.potentialWin,

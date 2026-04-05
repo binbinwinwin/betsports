@@ -16,10 +16,42 @@
       <a routerLink="/" class="go-home-btn">{{ 'history.goEvents' | t }}</a>
     </div>
   } @else {
+
+    <!-- 統計圖表 -->
+    <div class="charts-section">
+
+      <!-- 損益折線圖 -->
+      <div class="chart-card chart-wide">
+        <div class="chart-title">📈 累積損益走勢</div>
+        <div class="chart-wrap">
+          <canvas #lineCanvas></canvas>
+        </div>
+      </div>
+
+      <div class="charts-row">
+        <!-- 勝率圓餅圖 -->
+        <div class="chart-card">
+          <div class="chart-title">🏆 勝率統計</div>
+          <div class="chart-wrap chart-wrap-sm">
+            <canvas #pieCanvas></canvas>
+          </div>
+        </div>
+
+        <!-- 各運動投注長條圖 -->
+        <div class="chart-card">
+          <div class="chart-title">🎯 各運動投注金額</div>
+          <div class="chart-wrap chart-wrap-sm">
+            <canvas #barCanvas></canvas>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 投注紀錄列表 -->
     <div class="bet-list">
       @for (bet of placedBets; track bet.id) {
         <div class="bet-card" [class]="'status-' + bet.status">
-          <!-- 頂部：時間 + 類型 + 狀態 -->
           <div class="bet-card-header">
             <div class="bet-header-left">
               <span class="bet-time">{{ formatDate(bet.placedAt) }}</span>
@@ -32,10 +64,8 @@
             </span>
           </div>
 
-          <!-- 賽事名稱 -->
           <div class="bet-match-name">{{ bet.matchName }}</div>
 
-          <!-- 過關各腳明細 -->
           @if (bet.isParlay && bet.parlayLegs) {
             <div class="parlay-legs">
               @for (leg of bet.parlayLegs; track leg.matchName) {
@@ -48,7 +78,6 @@
             </div>
           }
 
-          <!-- 詳細資訊 -->
           <div class="bet-details">
             @if (!bet.isParlay) {
               <div class="detail-item">

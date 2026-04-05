@@ -25,6 +25,7 @@ export interface BetItem {
   selectionLabel: string;
   odds: number;
   stake: number;
+  sport?: SportType;
 }
 
 export interface ParlayLeg {

@@ -328,6 +328,15 @@ html, body {
 [data-theme="light"] .history-page {
   background: var(--bg-main) !important;
 }
+
+[data-theme="light"] .chart-card {
+  background: #ffffff !important;
+  border-color: #d0d7de !important;
+}
+
+[data-theme="light"] .chart-title {
+  color: #1f2328 !important;
+}
 [data-theme="light"] .bet-card {
   background: #ffffff !important;
   border-color: #d0d7de !important;
