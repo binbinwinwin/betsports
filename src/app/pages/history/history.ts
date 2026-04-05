@@ -161,34 +161,32 @@ export class History implements AfterViewInit, OnDestroy {
 
   private buildBar(): void {
     const sportMap: Record<string, number> = {
-      football: 0, basketball: 0, baseball: 0, tennis: 0, esports: 0,
+      football: 0, basketball: 0, baseball: 0, tennis: 0, esports: 0, other: 0,
     };
     const sportLabels: Record<string, string> = {
       football: '⚽ 足球', basketball: '🏀 籃球',
-      baseball: '⚾ 棒球', tennis: '🎾 網球', esports: '🎮 電競',
+      baseball: '⚾ 棒球', tennis: '🎾 網球', esports: '🎮 電競', other: '🎲 其他',
     };
 
     this.placedBets.forEach(b => {
       if (b.isParlay && b.parlayLegs && b.parlayLegs.length > 0) {
-        // 串關：按腳數均分 stake
         const perLeg = b.stake / b.parlayLegs.length;
         b.parlayLegs.forEach(leg => {
           const sport = leg.matchId ? this.inferSportFromId(leg.matchId) : '';
-          if (sport && sportMap[sport] !== undefined) {
-            sportMap[sport] += perLeg;
-          }
+          const key = (sport && sportMap[sport] !== undefined) ? sport : 'other';
+          sportMap[key] += perLeg;
         });
       } else {
-        // 單場：直接用 sport 欄位或推算
         const sport = b.sport || this.inferSportFromId(b.matchId);
-        if (sport && sportMap[sport] !== undefined) {
-          sportMap[sport] += b.stake;
-        }
+        const key = (sport && sportMap[sport] !== undefined) ? sport : 'other';
+        sportMap[key] += b.stake;
       }
     });
 
-    const labels = Object.keys(sportMap).map(k => sportLabels[k]);
-    const data   = Object.values(sportMap);
+    // 只顯示有資料的類別
+    const entries = Object.entries(sportMap).filter(([, v]) => v > 0);
+    const labels = entries.map(([k]) => sportLabels[k]);
+    const data   = entries.map(([, v]) => Math.round(v));
 
     this.barChart = new Chart(this.barCanvas.nativeElement, {
       type: 'bar',
@@ -197,13 +195,14 @@ export class History implements AfterViewInit, OnDestroy {
         datasets: [{
           label: '投注金額 (NT$)',
           data,
-          backgroundColor: [
-            'rgba(59,130,246,0.7)',
-            'rgba(240,180,41,0.7)',
-            'rgba(57,211,83,0.7)',
-            'rgba(139,92,246,0.7)',
-            'rgba(248,81,73,0.7)',
-          ],
+          backgroundColor: entries.map(([k]) => ({
+            football:   'rgba(59,130,246,0.7)',
+            basketball: 'rgba(240,180,41,0.7)',
+            baseball:   'rgba(57,211,83,0.7)',
+            tennis:     'rgba(139,92,246,0.7)',
+            esports:    'rgba(248,81,73,0.7)',
+            other:      'rgba(139,148,158,0.7)',
+          } as Record<string,string>)[k] || 'rgba(139,148,158,0.7)'),
           borderRadius: 6,
         }],
       },
