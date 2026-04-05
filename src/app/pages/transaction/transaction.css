@@ -303,4 +303,35 @@
   .profile-card {
     padding: 24px 20px;
   }
+
+  .user-info-section {
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .avatar {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .user-username {
+    font-size: 15px;
+  }
+
+  .user-badge {
+    font-size: 10px;
+    padding: 2px 8px;
+    white-space: nowrap;
+  }
+
+  .user-balance-amount {
+    font-size: 15px;
+    white-space: nowrap;
+  }
+
+  .user-balance-label {
+    font-size: 10px;
+  }
 }
