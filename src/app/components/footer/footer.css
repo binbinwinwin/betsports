@@ -159,6 +159,12 @@
 }
 
 /* ── RWD ── */
+@media (max-width: 600px) {
+  .site-footer {
+    margin-top: 24px;
+  }
+}
+
 @media (max-width: 768px) {
   .footer-inner {
     padding: 36px 20px 20px;
