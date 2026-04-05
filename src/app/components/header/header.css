@@ -466,17 +466,39 @@
 /* 中間尺寸 769px ~ 1024px，縮小間距避免擠壓 */
 @media (min-width: 769px) and (max-width: 1024px) {
   .header-inner {
-    gap: 12px;
-    padding: 0 16px;
+    gap: 8px;
+    padding: 0 12px;
+    flex-wrap: nowrap;
+  }
+  .nav-links {
+    flex-shrink: 1;
+    gap: 0;
   }
   .nav-link {
-    padding: 6px 10px;
-    font-size: 13px;
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+  .logo-sub {
+    display: none;
   }
   .user-name {
     display: none;
   }
+  .balance-label {
+    display: none;
+  }
   .balance-amount {
-    font-size: 13px;
+    font-size: 12px;
+  }
+  .header-right {
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .lang-select {
+    font-size: 11px;
+    padding: 4px 6px;
+  }
+  .badge-label {
+    display: none;
   }
 }
