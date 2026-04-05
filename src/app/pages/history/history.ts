@@ -185,8 +185,8 @@ export class History implements AfterViewInit, OnDestroy {
       football: 0, basketball: 0, baseball: 0, tennis: 0, esports: 0, other: 0,
     };
     const sportLabels: Record<string, string> = {
-      football: '⚽ 足球', basketball: '🏀 籃球',
-      baseball: '⚾ 棒球', tennis: '🎾 網球', esports: '🎮 電競', other: '🎲 其他(串關)',
+      football: '足球', basketball: '籃球',
+      baseball: '棒球', tennis: '網球', esports: '電競', other: '其他(串關)',
     };
 
     this.placedBets.forEach(b => {
@@ -237,7 +237,7 @@ export class History implements AfterViewInit, OnDestroy {
               color: this.textColor,
               maxRotation: 0,
               minRotation: 0,
-              font: { size: 11 },
+              font: { size: 10 },
             },
             grid: { color: this.gridColor },
           },
