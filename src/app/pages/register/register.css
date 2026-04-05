@@ -128,8 +128,8 @@
 @media (max-width: 600px) {
   .login-page {
     align-items: flex-start;
-    padding: 24px 16px 32px;
-    min-height: calc(100vh - 120px);
+    padding: 24px 16px;
+    min-height: unset;
   }
 
   .login-card {
