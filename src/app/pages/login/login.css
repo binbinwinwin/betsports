@@ -125,3 +125,15 @@
 .switch-link a:hover {
   text-decoration: underline;
 }
+
+@media (max-width: 600px) {
+  .login-page {
+    align-items: flex-start;
+    padding: 24px 16px 32px;
+    min-height: calc(100vh - 120px);
+  }
+
+  .login-card {
+    padding: 28px 24px;
+  }
+}
