@@ -30,7 +30,10 @@ export class History implements AfterViewInit, OnDestroy {
     effect(() => {
       // 每當 placedBets 有變動（包含結果出爐）就重建圖表
       this.betService.placedBets();
-      if (this.lineCanvas) this.buildCharts();
+      // setTimeout 讓 Angular 先完成 DOM 渲染（@else 區塊的 canvas）再建圖
+      setTimeout(() => {
+        if (this.lineCanvas) this.buildCharts();
+      }, 0);
     });
   }
 
