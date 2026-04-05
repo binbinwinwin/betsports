@@ -239,8 +239,9 @@ export class History implements AfterViewInit, OnDestroy {
           x: {
             ticks: {
               color: this.textColor,
-              maxRotation: 0,
+              maxRotation: 30,
               minRotation: 0,
+              autoSkip: false,
               font: { size: 10 },
             },
             grid: { color: this.gridColor },
