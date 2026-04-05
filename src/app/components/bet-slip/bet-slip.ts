@@ -25,8 +25,8 @@ export class BetSlip {
   get betMode() { return this.betService.betMode(); }
   get parlayOdds() { return this.betService.parlayOdds(); }
   get parlayStake() { return this.betService.parlayStake(); }
-  get validCount() { return this.betService.betItems().filter(b => b.stake > 0).length; }
-  get emptyCount() { return this.betService.betItems().filter(b => b.stake <= 0).length; }
+  get validCount() { return this.betService.betItems().filter(b => b.stake >= 100).length; }
+  get emptyCount() { return this.betService.betItems().filter(b => b.stake < 100).length; }
 
   switchMode(mode: BetMode): void {
     this.betService.switchMode(mode);

@@ -137,9 +137,9 @@
       }
 
       @if (betMode === 'parlay') {
-        <button class="place-bet-btn parlay-btn" [disabled]="betItems.length < 2 || parlayStake <= 0 || totalStake > balance" (click)="placeBets()">
+        <button class="place-bet-btn parlay-btn" [disabled]="betItems.length < 2 || parlayStake < 100 || totalStake > balance" (click)="placeBets()">
           @if (betItems.length < 2) { {{ 'slip.parlayMin' | t }} }
-          @else if (parlayStake <= 0) { {{ 'slip.parlayFillAmount' | t }} }
+          @else if (parlayStake < 100) { 最低投注 NT$ 100 }
           @else { {{ 'slip.parlayConfirm' | t: { n: betItems.length } }} }
         </button>
       }

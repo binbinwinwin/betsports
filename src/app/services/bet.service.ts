@@ -182,7 +182,7 @@ export class BetService {
       }];
     } else {
       betsToPlace = items
-        .filter(item => item.stake > 0)
+        .filter(item => item.stake >= 100)
         .map(item => ({
           id: item.id,
           matchId: item.matchId,
